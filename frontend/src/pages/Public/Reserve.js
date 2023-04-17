@@ -11,6 +11,8 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Card from "@mui/material/Card";
 import { CardActionArea } from "@mui/material";
 
+import axios from "axios";
+
 import ElectricCar from "../../assets/svg/ElectricCar";
 import KakaoMap from "../../components/KakaoMap";
 
@@ -332,6 +334,15 @@ const Reserve = () => {
       car_original_image: "/resources/images/cars/g80ev.png",
     },
   ];
+
+  /* axios
+    .request({
+      method: "GET",
+      url: "http://localhost:8000/api/user",
+    })
+    .then((res) => {
+      console.log(res.data);
+    }); */
 
   return (
     <Container maxWidth="lg">

@@ -18,10 +18,22 @@ class DetailUser(generics.RetrieveUpdateDestroyAPIView):
 def login(request):
     if(request.method == "POST"):
         data = JSONParser().parse(request)
-        search_user_id = data['user_id']
-        obj = User.objects.get(user_id=search_user_id)
+        serializer = UserSerializer(data=data)
 
-        if(data["password"] == obj.password):
+        if(serializer.is_valid()):
             return JsonResponse("로그인 성공")
         else:
             return JsonResponse("로그인 실패")
+    else:
+        return JsonResponse("{request.method} 잘못된 요청입니다.")
+
+def signup(request):
+    if(request.method == "POST"):
+        data = JSONParser().parse(request)
+        serializer = UserSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse("회원가입 성공")
+        return JsonResponse("회원가입 실패")
+    else:
+        return JsonResponse("{request.method} 잘못된 요청입니다.")

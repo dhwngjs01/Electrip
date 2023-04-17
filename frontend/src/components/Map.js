@@ -11,7 +11,7 @@ const Map = (props) => {
 
   useEffect(() => {
     // 지도를 표시할 div
-    const container = document.getElementById("map");
+    const mapContainer = document.getElementById("map");
     const geocoder = new kakao.maps.services.Geocoder();
     const ps = new kakao.maps.services.Places();
 
@@ -30,7 +30,7 @@ const Map = (props) => {
     };
 
     // 지도를 생성합니다.
-    const map = new kakao.maps.Map(container, options);
+    const map = new kakao.maps.Map(mapContainer, options);
     setCurrentLocationMarker();
     showCurrentLocationMarker();
     setZoneMarkerList();

@@ -33,4 +33,4 @@ class User(models.Model):
     user_disabled = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user_name
+        return self.user_no + "_" + self.user_id + "_" + self.user_name
