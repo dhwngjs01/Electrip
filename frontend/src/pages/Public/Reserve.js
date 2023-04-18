@@ -359,7 +359,8 @@ const Reserve = () => {
           sm={12}
           mt={10}
           sx={{
-            visibility: "hidden",
+            maxHeight: 0,
+            overflow: "hidden",
             opacity: 0,
           }}
         >

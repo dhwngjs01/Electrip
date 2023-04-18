@@ -114,6 +114,7 @@ const Map = (props) => {
           let customOverlay = document.createElement("div");
           let customOverlayContent = document.createElement("div");
           let reserveAbleTitle = document.createElement("span");
+          let reserveArrow = document.createElement("img");
 
           customOverlay.dataset.zone_no = zone.zone_no;
           customOverlay.className = "custom-overlay";
@@ -122,8 +123,12 @@ const Map = (props) => {
           reserveAbleTitle.dataset.address = zone.zone_address;
           reserveAbleTitle.innerText = "예약 가능";
 
-          customOverlayContent.appendChild(reserveAbleTitle);
+          reserveArrow.src = "/resources/images/reserve_arrow.png";
+          reserveArrow.className = "reserve-arrow";
+
           customOverlay.appendChild(customOverlayContent);
+          customOverlayContent.appendChild(reserveAbleTitle);
+          customOverlayContent.appendChild(reserveArrow);
 
           let zoneMarker = new kakao.maps.Marker({
             position: position,
@@ -137,9 +142,7 @@ const Map = (props) => {
           });
 
           customOverlay.onclick = function (e) {
-            e.stopPropagation();
-
-            selectedZoneMarker(e, position);
+            selectedZoneMarker(e.currentTarget, position);
           };
 
           zoneMarkers.push({
@@ -151,10 +154,7 @@ const Map = (props) => {
     }
 
     // 대여 장소 선택시
-    function selectedZoneMarker(e, position) {
-      // 선택한 마커
-      let selected = e.target;
-
+    function selectedZoneMarker(selected, position) {
       // 선택된 마커의 위도, 경도 저장
       setClickedZoneMarker(position);
 
@@ -170,11 +170,14 @@ const Map = (props) => {
       // 차량 선택 레이아웃 표시
       let customOverlayList = document.querySelectorAll(".custom-overlay");
       customOverlayList.forEach((el) => {
-        el.firstChild.firstChild.classList.remove("custom-overlay-active");
+        if (el !== selected) {
+          el.classList.remove("custom-overlay-active");
+        } else {
+          selected.classList.toggle("custom-overlay-active") === false
+            ? (reserveCarSelectLayout.style = "max-height:0; opacity:0")
+            : (reserveCarSelectLayout.style = "max-height:100%; opacity:1");
+        }
       });
-
-      selected.classList.toggle("custom-overlay-active");
-      reserveCarSelectLayout.style = "visibility: visible; opacity:1";
     }
 
     // 예약 가능한 지역 마커 표시

@@ -6,6 +6,7 @@
   border: 0;
   box-shadow: 0px 1px 2px #888;
   transition: none;
+  position: relative;
 }
 .custom-overlay * {
   transition: none;
@@ -14,11 +15,8 @@
 .custom-overlay .custom-overlay-content {
   border-radius: 6px;
   overflow: hidden;
-  background: #005ea0 url("/public/resources/images/arrow_white.png");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
+  background-color: #005ea0;
   cursor: pointer;
-  position: relative;
 }
 
 .custom-overlay-active .custom-overlay-content .reserve-able-title,
@@ -44,6 +42,13 @@
   transition: color, background-color 0.3s;
 }
 
+.custom-overlay .custom-overlay-content .reserve-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .custom-overlay .reserve-able-title:after {
   z-index: -1;
   content: "";
@@ -53,7 +58,7 @@
   bottom: -12px;
   width: 22px;
   height: 12px;
-  background: url("/public/resources/images/reserve_arrow.png");
+  background: url("/public/resources/images/zone_arrow.png");
 }
 
 .custom-overlay-active {
