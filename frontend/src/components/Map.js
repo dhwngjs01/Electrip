@@ -10,6 +10,13 @@ const Map = (props) => {
   const [clickedZoneMarker, setClickedZoneMarker] = useState(null);
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      let la = pos.coords.latitude;
+      let mg = pos.coords.longitude;
+
+      console.log(la, mg);
+    });
+
     // 지도를 표시할 div
     const mapContainer = document.getElementById("map");
     const geocoder = new kakao.maps.services.Geocoder();
@@ -54,6 +61,8 @@ const Map = (props) => {
           removeCurrentLocationMarker();
           setCurrentLocationMarker();
           showCurrentLocationMarker();
+          removeZoneMarkerList();
+          showZoneMarkerList();
         }
       });
     }
@@ -128,6 +137,8 @@ const Map = (props) => {
           });
 
           customOverlay.onclick = function (e) {
+            e.stopPropagation();
+
             selectedZoneMarker(e, position);
           };
 
@@ -141,31 +152,29 @@ const Map = (props) => {
 
     // 대여 장소 선택시
     function selectedZoneMarker(e, position) {
+      // 선택한 마커
       let selected = e.target;
+
+      // 선택된 마커의 위도, 경도 저장
+      setClickedZoneMarker(position);
+
+      // 차량 선택 레이아웃
+      let reserveCarSelectLayout = document.querySelector(
+        ".reserveCarSelectLayout"
+      );
+
       let reserveZoneText = document.querySelector(".reserve-zone-text");
-
-      setClickedZoneMarker(position); // 선택된 마커의 위도, 경도 저장
-      initStyle(selected);
-
       reserveZoneText.textContent = selected.dataset.address;
 
       // 선택된 마커의 스타일 변경
       // 차량 선택 레이아웃 표시
-      function initStyle(selected) {
-        let reserveCarSelectLayout = document.querySelector(
-          ".reserveCarSelectLayout"
-        );
+      let customOverlayList = document.querySelectorAll(".custom-overlay");
+      customOverlayList.forEach((el) => {
+        el.firstChild.firstChild.classList.remove("custom-overlay-active");
+      });
 
-        document.querySelectorAll(".custom-overlay").forEach((el) => {
-          el.classList.remove("custom-overlay-active");
-        });
-
-        selected.parentNode.parentNode.classList.toggle(
-          "custom-overlay-active"
-        );
-
-        reserveCarSelectLayout.style = "visibility: visible; opacity:1";
-      }
+      selected.classList.toggle("custom-overlay-active");
+      reserveCarSelectLayout.style = "visibility: visible; opacity:1";
     }
 
     // 예약 가능한 지역 마커 표시

@@ -8,15 +8,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import Map from "./Map";
 
 const KakaoMap = (props) => {
-  const [position, setPosition] = useState({ la: null, ma: null });
-
-  /* navigator.geolocation.getCurrentPosition(function (pos) {
-    let la = pos.coords.latitude;
-    let mg = pos.coords.longitude;
-
-    setPosition({ la, mg });
-  }); */
-
   return (
     <Paper
       elevation={16}

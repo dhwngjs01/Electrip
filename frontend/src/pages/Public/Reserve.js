@@ -335,6 +335,10 @@ const Reserve = () => {
     },
   ];
 
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position);
+  });
+
   /* axios
     .request({
       method: "GET",

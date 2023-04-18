@@ -18,6 +18,7 @@
   background-repeat: no-repeat;
   background-position: right 14px center;
   cursor: pointer;
+  position: relative;
 }
 
 .custom-overlay-active .custom-overlay-content .reserve-able-title,

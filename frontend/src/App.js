@@ -8,9 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Header from "./_layout/Header";
 import Main from "./pages/Main/Main";
-
 import Reserve from "./pages/Public/Reserve";
-
 import Login from "./pages/User/Login";
 import Join from "./pages/User/Join";
 import NotFound from "./_layout/NotFound";
