@@ -17,198 +17,15 @@ import ElectricCar from "../../assets/svg/ElectricCar";
 import KakaoMap from "../../components/KakaoMap";
 
 // 예약 정보
-const ReserveInfo = () => {
-  return (
-    <Grid
-      sm={4}
-      sx={{
-        maxHeight: "inherit",
-        backgroundColor: "primary.main",
-        position: "relative",
-      }}
-    >
-      <Box p={3}>
-        <Typography
-          variant="h6"
-          sx={{
-            color: "primary.contrastText",
-            borderBottom: "1px solid #e0e0e0",
-            pb: 1,
-            mb: 2,
-          }}
-        >
-          <LocationOnIcon
-            sx={{
-              verticalAlign: "middle",
-              fontSize: "2rem",
-              pr: 1,
-            }}
-          />
-          차량 대여 장소
-        </Typography>
-        <Typography
-          className="reserve-zone-text"
-          sx={{
-            color: "primary.contrastText",
-            mb: 4,
-          }}
-        >
-          장소를 먼저 선택해주세요.
-        </Typography>
-        <Typography
-          variant="h6"
-          sx={{
-            color: "primary.contrastText",
-            borderBottom: "1px solid #e0e0e0",
-            pb: 1,
-            mb: 2,
-          }}
-        >
-          <ElectricCar
-            sx={{
-              verticalAlign: "middle",
-              fontSize: "2.5rem",
-              pr: 1,
-            }}
-          />
-          차량 선택
-        </Typography>
-        <Typography
-          className="reserve-car-text"
-          sx={{
-            color: "primary.contrastText",
-          }}
-        >
-          차량을 선택해주세요.
-        </Typography>
-      </Box>
-      <Button
-        fullWidth
-        variant="contained"
-        size="large"
-        sx={{
-          fontSize: "1.2rem",
-          backgroundColor: "#333",
-          color: "#fff",
-          "&:hover": { backgroundColor: "#111", color: "#fff" },
-          borderRadius: 0,
-          position: "absolute",
-          left: 0,
-          bottom: 0,
-        }}
-      >
-        다음
-      </Button>
-    </Grid>
-  );
-};
-
-// 예약할 수 있는 차량 목록
-const ReserveCarList = ({ carList }) => {
-  return (
-    <Grid
-      sm={8}
-      sx={{
-        maxHeight: "inherit",
-        "& > .scrollbar": {
-          overflowY: "scroll",
-          "&::-webkit-scrollbar": {
-            width: 10,
-            WebkitAppearance: "none",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            borderRadius: 5,
-            backgroundColor: "rgba(0 0 0 / 0.5)",
-          },
-        },
-      }}
-    >
-      <Box
-        className="scrollbar"
-        sx={{
-          boxSizing: "border-box",
-          p: 2,
-          maxHeight: "inherit",
-        }}
-      >
-        <Grid container spacing={2}>
-          {carList.map((car) => (
-            <Grid
-              key={car.car_no}
-              sm={6}
-              sx={{
-                pb: 1,
-              }}
-            >
-              <Card elevation={3}>
-                <CardActionArea>
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    p={3}
-                    sx={{
-                      height: "200px",
-                      transition: "background-color 0.3s",
-                      "&:hover": {
-                        backgroundColor: "warning.main",
-                      },
-                      "&:hover .MuiTypography-root": {
-                        color: "warning.contrastText",
-                      },
-                    }}
-                  >
-                    <Grid sm={6}>
-                      <Box
-                        component="img"
-                        src={car.car_original_image}
-                        title={car.car_name}
-                        alt={car.car_name}
-                        sx={{
-                          maxWidth: "100%",
-                        }}
-                      />
-                    </Grid>
-                    <Grid
-                      sm={6}
-                      sx={{
-                        textAlign: "right",
-                      }}
-                    >
-                      <Typography
-                        variant="h6"
-                        fontWeight="bold"
-                        style={{ wordBreak: "keep-all" }}
-                      >
-                        {car.car_name}
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        color="primary.main"
-                        fontWeight="bold"
-                      >
-                        {car.car_price
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                        원
-                      </Typography>
-                      <Typography variant="h6">{car.car_seat}인승</Typography>
-                    </Grid>
-                  </Grid>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Grid>
-  );
-};
 
 const Reserve = () => {
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState();
   const [selectedCar, setSelectedCar] = useState(null);
+
+  const [currentPos, setCurrentPos] = useState({
+    lat: 37.4514480321002,
+    lng: 126.651542258118,
+  });
 
   const zoneList = [
     {
@@ -335,9 +152,194 @@ const Reserve = () => {
     },
   ];
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    console.log(position);
-  });
+  const ReserveInfo = () => {
+    return (
+      <Grid
+        sm={4}
+        sx={{
+          maxHeight: "inherit",
+          backgroundColor: "primary.main",
+          position: "relative",
+        }}
+      >
+        <Box p={3}>
+          <Typography
+            variant="h6"
+            sx={{
+              color: "primary.contrastText",
+              borderBottom: "1px solid #e0e0e0",
+              pb: 1,
+              mb: 2,
+            }}
+          >
+            <LocationOnIcon
+              sx={{
+                verticalAlign: "middle",
+                fontSize: "2rem",
+                pr: 1,
+              }}
+            />
+            차량 대여 장소
+          </Typography>
+          <Typography
+            className="reserve-zone-text"
+            sx={{
+              color: "primary.contrastText",
+              mb: 4,
+            }}
+          >
+            장소를 먼저 선택해주세요.
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color: "primary.contrastText",
+              borderBottom: "1px solid #e0e0e0",
+              pb: 1,
+              mb: 2,
+            }}
+          >
+            <ElectricCar
+              sx={{
+                verticalAlign: "middle",
+                fontSize: "2.5rem",
+                pr: 1,
+              }}
+            />
+            차량 선택
+          </Typography>
+          <Typography
+            className="reserve-car-text"
+            sx={{
+              color: "primary.contrastText",
+            }}
+          >
+            차량을 선택해주세요.
+          </Typography>
+        </Box>
+        <Button
+          fullWidth
+          variant="contained"
+          size="large"
+          sx={{
+            fontSize: "1.2rem",
+            backgroundColor: "#333",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#111", color: "#fff" },
+            borderRadius: 0,
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          다음
+        </Button>
+      </Grid>
+    );
+  };
+
+  // 예약할 수 있는 차량 목록
+  const ReserveCarList = () => {
+    return (
+      <Grid
+        sm={8}
+        sx={{
+          maxHeight: "inherit",
+          "& > .scrollbar": {
+            overflowY: "scroll",
+            "&::-webkit-scrollbar": {
+              width: 10,
+              WebkitAppearance: "none",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: 5,
+              backgroundColor: "rgba(0 0 0 / 0.5)",
+            },
+          },
+        }}
+      >
+        <Box
+          className="scrollbar"
+          sx={{
+            boxSizing: "border-box",
+            p: 2,
+            maxHeight: "inherit",
+          }}
+        >
+          <Grid container spacing={2}>
+            {carList.map((car) => (
+              <Grid
+                key={car.car_no}
+                sm={6}
+                sx={{
+                  pb: 1,
+                }}
+              >
+                <Card elevation={3}>
+                  <CardActionArea>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                      p={3}
+                      sx={{
+                        height: "200px",
+                        transition: "background-color 0.3s",
+                        "&:hover": {
+                          backgroundColor: "warning.main",
+                        },
+                        "&:hover .MuiTypography-root": {
+                          color: "warning.contrastText",
+                        },
+                      }}
+                    >
+                      <Grid sm={6}>
+                        <Box
+                          component="img"
+                          src={car.car_original_image}
+                          title={car.car_name}
+                          alt={car.car_name}
+                          sx={{
+                            maxWidth: "100%",
+                          }}
+                        />
+                      </Grid>
+                      <Grid
+                        sm={6}
+                        sx={{
+                          textAlign: "right",
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          fontWeight="bold"
+                          style={{ wordBreak: "keep-all" }}
+                        >
+                          {car.car_name}
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          color="primary.main"
+                          fontWeight="bold"
+                        >
+                          {car.car_price
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                          원
+                        </Typography>
+                        <Typography variant="h6">{car.car_seat}인승</Typography>
+                      </Grid>
+                    </Grid>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Grid>
+    );
+  };
 
   /* axios
     .request({
