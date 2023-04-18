@@ -139,6 +139,7 @@ const Map = (props) => {
             position: position,
             content: customOverlay,
             yAnchor: 1,
+            clickable: true,
           });
 
           customOverlay.onclick = function (e) {
@@ -173,9 +174,16 @@ const Map = (props) => {
         if (el !== selected) {
           el.classList.remove("custom-overlay-active");
         } else {
+          // 선택된 마커의 스타일 변경 및 차량 선택 레이아웃 표시
           selected.classList.toggle("custom-overlay-active") === false
-            ? (reserveCarSelectLayout.style = "max-height:0; opacity:0")
+            ? (reserveCarSelectLayout.style = "opacity:0")
             : (reserveCarSelectLayout.style = "max-height:100%; opacity:1");
+
+          reserveCarSelectLayout.addEventListener("transitionend", () => {
+            if (reserveCarSelectLayout.style.opacity == "0") {
+              reserveCarSelectLayout.style.maxHeight = "0";
+            }
+          });
         }
       });
     }
