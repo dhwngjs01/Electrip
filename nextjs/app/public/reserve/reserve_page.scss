@@ -1,0 +1,29 @@
+.reserve-car-select-layout {
+  overflow: hidden;
+  transition: opacity 0.3s;
+}
+
+.hide-select-car-layout {
+  max-height: 0;
+  opacity: 0;
+}
+
+.show-select-car-layout {
+  max-height: 100%;
+  opacity: 1;
+}
+
+.car-card {
+  transition: background-color 0.3s;
+  .MuiTypography-root {
+    transition: color 0.3s;
+  }
+}
+
+.selected-car {
+  background-color: #ed6c02 !important;
+
+  .MuiTypography-root {
+    color: #fff;
+  }
+}
