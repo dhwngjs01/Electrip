@@ -1,7 +1,9 @@
-// frontend/src/Header.js
+"use client";
 
-import { React, useState } from "react";
-import { useLocation } from "react-router-dom";
+import "./globals.scss";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import Script from "next/script";
 
 import {
   Container,
@@ -20,7 +22,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const Header = (props) => {
+export default function RootLayout({ children }) {
   const mainMenu = [
     { link: "/public/intro", name: "일렉트립 소개" },
     { link: "/public/info", name: "이용안내" },
@@ -208,22 +210,39 @@ const Header = (props) => {
     );
   };
 
-  const location = useLocation();
+  const pathname = usePathname();
 
-  // 네비게이션 리턴
   return (
-    <AppBar
-      id="nav"
-      className={location.pathname === "/" ? "rootPage" : "notRootPage"}
-    >
-      <Container maxWidth="lg">
-        <Toolbar disableGutters>
-          {pcNav()}
-          {mobileNav()}
-        </Toolbar>
-      </Container>
-    </AppBar>
+    <html lang="ko">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <title>Electrip</title>
+      </head>
+      <body>
+        <div id="wrap" style={pathname === "/" ? { marginTop: "110px" } : null}>
+          <AppBar
+            id="nav"
+            className={pathname === "/" ? "rootPage" : "notRootPage"}
+          >
+            <Container maxWidth="lg">
+              <Toolbar disableGutters>
+                {pcNav()}
+                {mobileNav()}
+              </Toolbar>
+            </Container>
+          </AppBar>
+          {children}
+        </div>
+        <Script
+          type="text/javascript"
+          src={
+            "//dapi.kakao.com/v2/maps/sdk.js?appkey=" +
+            process.env.NEXT_PUBLIC_REACT_APP_KAKAOMAP_API +
+            "&libraries=services,clusterer,drawing&autoload=false"
+          }
+          strategy="beforeInteractive"
+        />
+      </body>
+    </html>
   );
-};
-
-export default Header;
+}

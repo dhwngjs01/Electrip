@@ -1,4 +1,8 @@
-import { React } from "react";
+"use client";
+
+import "./page.module.scss";
+import "./globals.scss";
+import "swiper/swiper.min.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel } from "swiper";
@@ -9,9 +13,10 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
-function Main() {
+export default function Main() {
   return (
     <Swiper
+      className="swiper-parent"
       modules={[Mousewheel]}
       direction={"vertical"}
       speed={500}
@@ -188,4 +193,3 @@ function Main() {
     </Swiper>
   );
 }
-export default Main;
