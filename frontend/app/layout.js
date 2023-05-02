@@ -25,7 +25,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export default function RootLayout({ children }) {
   const mainMenu = [
     { link: "/public/intro", name: "일렉트립 소개" },
-    { link: "/public/info", name: "이용안내" },
+    { link: "/public/guide", name: "이용안내" },
     { link: "/public/reserve", name: "바로예약" },
     { link: "/public/support", name: "고객지원" },
   ];
