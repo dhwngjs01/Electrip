@@ -9,8 +9,18 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import axios from "axios";
 
 const Login = () => {
+  /* axios
+    .request({
+      method: "GET",
+      url: "http://localhost:8000/accounts/hello_world/",
+    })
+    .then((res) => {
+      console.log(res.data);
+    }); */
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

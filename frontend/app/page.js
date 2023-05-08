@@ -1,7 +1,7 @@
 "use client";
 
-import "./page.module.scss";
 import "./globals.scss";
+import "./page.scss";
 import "swiper/swiper.min.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
