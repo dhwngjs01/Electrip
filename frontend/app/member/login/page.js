@@ -93,12 +93,12 @@ const Login = () => {
           mt={3}
         >
           <Grid>
-            <Button href="http://www.naver.com">
+            <Button href="http://localhost:8000/user/naver/login">
               <Box component="img" src="/resources/images/naver_icon.png" />
             </Button>
           </Grid>
           <Grid>
-            <Button href="http://www.kakao.com">
+            <Button href="http://localhost:8000/user/kakao/login">
               <Box component="img" src="/resources/images/kakao_icon.png" />
             </Button>
           </Grid>

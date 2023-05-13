@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
+import MainVisual from "/components/MainVisual";
+
 export default function Main() {
   return (
     <Swiper
@@ -28,22 +30,7 @@ export default function Main() {
       }}
     >
       <SwiperSlide>
-        <video
-          src="./resources/mainVisual/mainVisual.mp4"
-          className="mainVisual"
-          autoPlay
-          loop
-          muted
-          poster="./resources/mainVisual/mainVisual.png"
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: "100vw",
-            height: "100vh",
-            objectFit: "cover",
-          }}
-        />
+        <MainVisual />
       </SwiperSlide>
       <SwiperSlide style={{ overflow: "hidden" }}>
         <Box
