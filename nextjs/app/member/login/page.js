@@ -5,9 +5,6 @@ import { FaLock, FaSmileBeam } from "react-icons/fa";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 
 const Login = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const loginErrorParam = searchParams.get("error");
-
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
