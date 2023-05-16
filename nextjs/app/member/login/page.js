@@ -5,6 +5,9 @@ import { FaLock, FaSmileBeam } from "react-icons/fa";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 
 const Login = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const loginErrorParam = searchParams.get("error");
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
@@ -13,10 +16,13 @@ const Login = () => {
     const res = await signIn("credentials", {
       user_id,
       user_pw,
+      redirect: false,
     });
 
-    if (!res.ok) {
+    if (res.error) {
       alert("아이디와 비밀번호가 일치하지 않습니다.");
+    } else {
+      window.location.href = "/";
     }
   };
 

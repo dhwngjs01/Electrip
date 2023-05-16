@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
 import PostgresAdapter from "@/util/adapter";
 import pool from "@/util/database";
 

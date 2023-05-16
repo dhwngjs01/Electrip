@@ -60,10 +60,7 @@ export default function Navigation() {
             <Nav className="util-nav">
               {session.status !== "authenticated" ? (
                 <>
-                  <Nav.Link
-                    className="text-light"
-                    onClick={() => signIn("credentials")}
-                  >
+                  <Nav.Link className="text-light" onClick={() => signIn()}>
                     로그인
                   </Nav.Link>
                   <Nav.Link className="text-light" href="/member/join">
