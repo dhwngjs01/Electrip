@@ -2,4 +2,7 @@ frontend_backup/
 backend_backup/
 drf_backup/
 .vscode/
+
 express-api/node_modules
+express-api/.env
+express-api/config
