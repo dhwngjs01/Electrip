@@ -1,0 +1,21 @@
+.gpsIcon {
+  z-index: 3;
+  top: 25px;
+  left: 25px;
+  box-shadow: 0 0 7px #333;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #0093c9 !important;
+    color: #fff !important;
+  }
+}
+
+.searchAddressForm {
+  z-index: 2;
+  top: 25px;
+  right: 25px;
+  width: 400px;
+  box-shadow: 0 0 7px #333;
+}
