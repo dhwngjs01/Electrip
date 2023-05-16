@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.scss";
 import Navigation from "/components/Navigation";
+import { NextAuthProvider } from "@/components/Provider";
 
 export default function RootLayout({ children }) {
   return (
@@ -11,10 +12,12 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <div id="wrap">
-          <Navigation />
-          {children}
-        </div>
+        <NextAuthProvider>
+          <div id="wrap">
+            <Navigation />
+            {children}
+          </div>
+        </NextAuthProvider>
       </body>
     </html>
   );

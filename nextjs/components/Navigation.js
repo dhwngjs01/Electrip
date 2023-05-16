@@ -13,8 +13,10 @@ import {
   Nav,
 } from "react-bootstrap";
 import { signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function Navigation() {
+  const session = useSession();
   const pathname = usePathname();
 
   const mainMenu = [
@@ -56,18 +58,23 @@ export default function Navigation() {
               ))}
             </Nav>
             <Nav className="util-nav">
-              <Nav.Link
-                className="text-light"
-                onClick={() => signIn("credentials")}
-              >
-                로그인
-              </Nav.Link>
-              <Nav.Link className="text-light" href="/member/join">
-                회원가입
-              </Nav.Link>
-              <Nav.Link className="text-light" onClick={() => signOut()}>
-                로그아웃
-              </Nav.Link>
+              {session.status !== "authenticated" ? (
+                <>
+                  <Nav.Link
+                    className="text-light"
+                    onClick={() => signIn("credentials")}
+                  >
+                    로그인
+                  </Nav.Link>
+                  <Nav.Link className="text-light" href="/member/join">
+                    회원가입
+                  </Nav.Link>
+                </>
+              ) : (
+                <Nav.Link className="text-light" onClick={() => signOut()}>
+                  로그아웃
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

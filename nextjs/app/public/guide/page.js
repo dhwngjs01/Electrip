@@ -46,8 +46,8 @@ export default function Guide() {
     <Container>
       <h1 className="my-4">이용안내</h1>
       <Row>
-        {information.map((info) => (
-          <Col md={6}>
+        {information.map((info, key) => (
+          <Col md={6} key={key}>
             <Card key={info.id} className="mb-4">
               <Card.Header>{info.title}</Card.Header>
               <Card.Body>

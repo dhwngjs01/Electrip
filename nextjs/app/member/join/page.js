@@ -9,7 +9,6 @@ import axios from "axios";
 
 const Join = () => {
   const [phone, setPhone] = useState("");
-
   const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
@@ -56,31 +55,32 @@ const Join = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-    const password2 = event.target.password2.value;
-    const name = event.target.name.value;
-    const phone = event.target.phone.value;
-    const zipcode = event.target.zipcode.value;
-    const address = event.target.address.value;
-    const detail_address = event.target.detail_address.value;
+    const user_id = event.target.user_id.value;
+    const user_pw = event.target.user_pw.value;
+    const user_pw2 = event.target.user_pw2.value;
+    const user_name = event.target.user_name.value;
+    const user_phone = event.target.user_phone.value;
+    const user_zipcode = event.target.user_zipcode.value;
+    const user_address = event.target.user_address.value;
+    const user_detail_address = event.target.user_detail_address.value;
 
-    if (password !== password2) {
-      alert("비밀번호가 일치하지 않습니다.");
+    if (user_pw !== user_pw2) {
+      alert("비밀번호가 서로 일치하지 않습니다.");
       return;
     }
 
     const data = {
-      email,
-      password,
-      password2,
-      name,
-      phone,
-      zipcode,
-      address,
-      detail_address,
+      user_id,
+      user_pw,
+      user_pw2,
+      user_name,
+      user_phone,
+      user_zipcode,
+      user_address,
+      user_detail_address,
     };
 
+    axios.defaults.withCredentials = true;
     axios
       .post("/api/auth/signup", data)
       .then((res) => {
@@ -107,6 +107,8 @@ const Join = () => {
           if (res.data.message) {
             alert(res.data.message);
           }
+
+          console.log(res.data);
         }
       })
       .catch((err) => {
@@ -131,8 +133,8 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="email"
-                  id="email"
-                  name="email"
+                  id="user_id"
+                  name="user_id"
                   placeholder="이메일"
                   autoFocus
                   required
@@ -144,8 +146,8 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="password"
-                  id="password"
-                  name="password"
+                  id="user_pw"
+                  name="user_pw"
                   placeholder="비밀번호"
                   required
                 />
@@ -156,8 +158,8 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="password"
-                  id="password2"
-                  name="password2"
+                  id="user_pw2"
+                  name="user_pw2"
                   placeholder="비밀번호 확인"
                   required
                 />
@@ -168,8 +170,8 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="text"
-                  id="name"
-                  name="name"
+                  id="user_name"
+                  name="user_name"
                   placeholder="이름"
                   required
                 />
@@ -180,8 +182,8 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="tel"
-                  id="phone"
-                  name="phone"
+                  id="user_phone"
+                  name="user_phone"
                   placeholder="휴대폰 번호"
                   value={phone}
                   onChange={handlePhone}
@@ -193,8 +195,8 @@ const Join = () => {
               <Col xs={6} md={4} className="mb-2">
                 <Form.Control
                   type="text"
-                  id="zipcode"
-                  name="zipcode"
+                  id="user_zipcode"
+                  name="user_zipcode"
                   placeholder="우편번호"
                   value={zipcode}
                   readOnly
@@ -213,8 +215,8 @@ const Join = () => {
               <Col xs={12} className="mb-2">
                 <Form.Control
                   type="text"
-                  id="address"
-                  name="address"
+                  id="user_address"
+                  name="user_address"
                   placeholder="주소"
                   value={address}
                   readOnly
@@ -224,8 +226,8 @@ const Join = () => {
               <Col xs={12} className="mb-2">
                 <Form.Control
                   type="text"
-                  id="detail_address"
-                  name="detail_address"
+                  id="user_detail_address"
+                  name="user_detail_address"
                   placeholder="상세주소"
                   value={detailAddress}
                   readOnly={isPostcodeClicked}

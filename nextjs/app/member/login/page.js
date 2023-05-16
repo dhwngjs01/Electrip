@@ -8,15 +8,14 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    const user_id = e.target.user_id.value;
+    const user_pw = e.target.user_pw.value;
     const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
+      user_id,
+      user_pw,
     });
 
-    if (res.error) {
+    if (!res.ok) {
       alert("아이디와 비밀번호가 일치하지 않습니다.");
     }
   };
@@ -33,7 +32,7 @@ const Login = () => {
           <Form.Control
             id="user_id"
             type="email"
-            name="email"
+            name="user_id"
             placeholder="아이디"
             required
             autoFocus
@@ -43,7 +42,7 @@ const Login = () => {
           <Form.Control
             id="user_pw"
             type="password"
-            name="password"
+            name="user_pw"
             placeholder="비밀번호"
             required
             size="lg"

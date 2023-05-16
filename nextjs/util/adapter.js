@@ -2,15 +2,11 @@ export default function PostgresAdapter(client, options = {}) {
   return {
     async createUser(user) {
       try {
-        // user.id = user._id;
-        user.emailVerified = user.email_verified;
-
         const sql = `
-          INSERT INTO users (id, name, email, email_verified, image, mobile) 
-          VALUES ($1, $2, $3, $4, $5, $6) 
+          INSERT INTO users (name, email, email_verified, image, mobile) 
+          VALUES ($1, $2, $3, $4, $5) 
           RETURNING id, name, email, email_verified, image, mobile`;
         let result = await client.query(sql, [
-          user.id,
           user.name,
           user.email,
           user.emailVerified,
@@ -70,26 +66,24 @@ export default function PostgresAdapter(client, options = {}) {
         const sql = `
           insert into accounts 
           (
-            user_id, 
-            type, 
             provider, 
+            type, 
             provider_account_id, 
-            refresh_token,
             access_token,
-            expires_at,
-            token_type
+            refresh_token,
+            token_type,
+            user_id
           )
-          values ($1, $2, $3, $4, $5, $6, $7, $8)`;
+          values ($1, $2, $3, $4, $5, $6, $7)`;
 
         const params = [
-          account.userId,
-          account.type,
           account.provider,
+          account.type,
           account.providerAccountId,
-          account.refresh_token,
           account.access_token,
-          account.expires_at,
+          account.refresh_token,
           account.token_type,
+          account.userId,
         ];
 
         await client.query(sql, params);
@@ -100,7 +94,7 @@ export default function PostgresAdapter(client, options = {}) {
       }
     },
     async createSession({ sessionToken, userId, expires }) {
-      console.log(sessionToken);
+      console.log("this is createSession");
 
       try {
         const sql = `insert into sessions (user_id, expires, session_token) values ($1, $2, $3)`;
@@ -112,6 +106,8 @@ export default function PostgresAdapter(client, options = {}) {
       }
     },
     async getSessionAndUser(sessionToken) {
+      console.log("this is getSessionAndUser");
+
       try {
         let result;
         result = await client.query(
@@ -122,7 +118,7 @@ export default function PostgresAdapter(client, options = {}) {
         let session = result.rows[0];
 
         result = await client.query("select * from users where id = $1", [
-          session.user_id,
+          session.userId,
         ]);
         let user = result.rows[0];
 
@@ -140,6 +136,7 @@ export default function PostgresAdapter(client, options = {}) {
       return;
     },
     async deleteSession(sessionToken) {
+      console.log("this is deleteSession");
       try {
         const sql = `delete from sessions where session_token = $1`;
         await client.query(sql, [sessionToken]);

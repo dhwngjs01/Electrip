@@ -1,7 +1,6 @@
 import "./ReserveInfo.scss";
 
 import { Button, Col } from "react-bootstrap";
-// import ElectricCar from "/public/svg/ElectricCar";
 import { BsFillCarFrontFill } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
