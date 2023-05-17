@@ -19,6 +19,8 @@ export default function Navigation() {
   const session = useSession();
   const pathname = usePathname();
 
+  console.log(session);
+
   const mainMenu = [
     { link: "/public/intro", name: "일렉트립 소개" },
     { link: "/public/guide", name: "이용안내" },
@@ -65,6 +67,15 @@ export default function Navigation() {
                   </Nav.Link>
                   <Nav.Link className="text-light" href="/member/join">
                     회원가입
+                  </Nav.Link>
+                </>
+              ) : session.data.user.is_staff ? (
+                <>
+                  <Nav.Link className="text-light" href="/admin">
+                    관리자페이지
+                  </Nav.Link>
+                  <Nav.Link className="text-light" onClick={() => signOut()}>
+                    로그아웃
                   </Nav.Link>
                 </>
               ) : (

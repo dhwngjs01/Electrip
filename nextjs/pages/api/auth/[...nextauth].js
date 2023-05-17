@@ -43,7 +43,7 @@ export const authOptions = {
       // 아이디,비번 맞으면 return 결과, 틀리면 return null 해야함
       async authorize(credentials, req) {
         try {
-          let sql = `select * from user_cred where user_id = $1 and user_pw = $2`;
+          let sql = `select * from user_cred where user_id = $1 and user_pw = $2 and user_is_active = true`;
           let user = await pool.query(sql, [
             credentials.user_id,
             credentials.user_pw,
@@ -78,10 +78,12 @@ export const authOptions = {
         token.user = {};
         token.user.id = user.id;
         token.user.type = "users";
+        token.user.is_staff = user.is_staff;
       } else if (user) {
         token.user = {};
         token.user.user_no = user.user_no;
         token.user.type = "user_cred";
+        token.user.is_staff = user.user_is_staff;
       }
 
       return token;
