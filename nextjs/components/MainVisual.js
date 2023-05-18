@@ -1,4 +1,4 @@
-export default function MainSection1() {
+export default function MainVisual() {
   return (
     <video
       src="./mainVisual/mainVisual.mp4"

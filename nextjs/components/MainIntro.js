@@ -5,53 +5,47 @@ import Col from "react-bootstrap/Col";
 import { FaTelegramPlane } from "react-icons/fa/";
 import { Image } from "react-bootstrap";
 
-export default function MainSection2() {
+export default function MainIntro() {
   return (
     <>
-      <Image
-        src="./images/main_section_bg.jpeg"
-        className="position-absolute left-0 top-0 w-100 h-100"
-        style={{
-          zIndex: -1,
-          transform: "translate(0, -20%)",
-          objectFit: "cover",
-        }}
-      />
+      <div className="position-relative" style={{ height: "60%" }}>
+        <Image
+          src="./images/main_section_bg.jpeg"
+          className="position-absolute left-0 top-0 w-100 h-100"
+          style={{
+            zIndex: -1,
+            objectFit: "cover",
+          }}
+        />
 
-      <div
-        className="position-absolute left-0 top-0 w-100 h-100"
-        style={{
-          zIndex: -1,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        }}
-      />
-      <Container style={{ height: "60%" }}>
-        <Row
-          className="align-items-end justify-content-between h-100"
-          style={{ paddingBottom: "4rem" }}
-        >
-          <Col md={8}>
-            <div
-              className="border-start ps-4"
-              style={{
-                color: "#fff",
-              }}
-            >
-              <h3 style={{ fontSize: "3rem" }}>내 주위 가까운</h3>
-              <h3 className="mt-3" style={{ fontSize: "3rem" }}>
-                일렉존에서 어느 곳이든
-              </h3>
-            </div>
-          </Col>
-          <Col md={4}>
-            <Image
-              src="./images/car.png"
-              className="w-100 d-block"
-              style={{ maxWidth: "380px" }}
-            />
-          </Col>
-        </Row>
-      </Container>
+        <div
+          className="position-absolute left-0 bottom-0 w-100 h-100"
+          style={{
+            zIndex: -1,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        />
+        <Container className="h-100">
+          <Row className="align-items-end justify-content-between h-100 pb-5">
+            <Col md={8}>
+              <div
+                className="border-start ps-4"
+                style={{
+                  color: "#fff",
+                }}
+              >
+                <h3 style={{ fontSize: "3rem" }}>내 주위 가까운</h3>
+                <h3 className="mt-3" style={{ fontSize: "3rem" }}>
+                  일렉존에서 어느 곳이든
+                </h3>
+              </div>
+            </Col>
+            <Col md={4}>
+              <Image src="./images/car.png" className="w-100 d-block" />
+            </Col>
+          </Row>
+        </Container>
+      </div>
       <div
         className="d-flex"
         style={{
@@ -64,9 +58,6 @@ export default function MainSection2() {
               <Image
                 src="./images/main_section_map.png"
                 className="w-100 d-block py-3"
-                style={{
-                  maxWidth: "400px",
-                }}
               />
             </Col>
             <Col
