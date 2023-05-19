@@ -13,7 +13,8 @@ export default function ReserveCarList(props) {
   };
 
   return (
-    <Col sm={8} className="bg-white" style={{ maxHeight: "inherit" }}>
+    // <Col xl={8} lg={(12, { order: "first" })} className="bg-white">
+    <Col md={8} className="bg-white">
       <div className="scrollbar d-flex">
         <Row className="m-0 gx-5">
           {props.carList.map((car) => (

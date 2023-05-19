@@ -57,15 +57,10 @@ export default function MainIntro() {
             <Col md={5}>
               <Image
                 src="./images/main_section_map.png"
-                className="w-100 d-block py-3"
+                className="w-100 d-block px-5"
               />
             </Col>
-            <Col
-              md={7}
-              style={{
-                py: 5,
-              }}
-            >
+            <Col md={7}>
               <h5 className="text-white text-end">
                 차를 빌리고 반납하기 위해 먼 곳까지 찾아가셨나요?
               </h5>

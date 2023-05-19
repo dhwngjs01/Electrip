@@ -1,7 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.scss";
-import Navigation from "/components/Navigation";
-import { NextAuthProvider } from "@/components/Provider";
+
+import { NextAuthProvider } from "@/components/common/Provider";
+import Navigation from "@/components/common/Navigation";
+import Script from "next/script";
+import { Providers } from "@/redux/provider";
 
 export default function RootLayout({ children }) {
   return (
@@ -12,12 +15,14 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <NextAuthProvider>
-          <div id="wrap">
-            <Navigation />
-            {children}
-          </div>
-        </NextAuthProvider>
+        <Providers>
+          <NextAuthProvider>
+            <div id="wrap">
+              <Navigation />
+              {children}
+            </div>
+          </NextAuthProvider>
+        </Providers>
       </body>
     </html>
   );

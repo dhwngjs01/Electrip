@@ -6,8 +6,8 @@ import "swiper/swiper.min.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Mousewheel } from "swiper";
-import MainSection1 from "@/components/MainSection1";
-import MainSection2 from "@/components/MainSection2";
+import MainVisual from "@/components/pages/main/MainVisual";
+import MainIntro from "@/components/pages/main/MainIntro";
 
 export default function Main() {
   return (
@@ -19,15 +19,12 @@ export default function Main() {
       mousewheel={true}
       keyboard={true}
       touchReleaseOnEdges={true}
-      style={{
-        height: "100vh",
-      }}
     >
       <SwiperSlide>
-        <MainSection1 />
+        <MainVisual />
       </SwiperSlide>
-      <SwiperSlide style={{ overflow: "hidden" }}>
-        <MainSection2 />
+      <SwiperSlide>
+        <MainIntro />
       </SwiperSlide>
     </Swiper>
   );

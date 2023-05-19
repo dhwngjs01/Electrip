@@ -19,8 +19,6 @@ export default function Navigation() {
   const session = useSession();
   const pathname = usePathname();
 
-  console.log(session);
-
   const mainMenu = [
     { link: "/public/intro", name: "일렉트립 소개" },
     { link: "/public/guide", name: "이용안내" },

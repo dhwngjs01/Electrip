@@ -6,13 +6,8 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 
 export default function ReserveInfo(props) {
   return (
-    <Col
-      sm={4}
-      className="bg-primary p-0 position-relative rounded-3"
-      style={{
-        maxHeight: "inherit",
-      }}
-    >
+    // <Col xl={4} lg={(12, { order: "last" })} className="bg-primary p-0 position-relative rounded-3">
+    <Col md={4} className="bg-primary p-0 position-relative rounded-3">
       <div className="p-3">
         <h4 className="text-white border-bottom pb-1 mb-2">
           <FaMapMarkerAlt className="fs-3 align-middle" />
