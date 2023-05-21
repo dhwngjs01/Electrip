@@ -12,6 +12,7 @@ const initialState = {
   zoneList: [],
   carNo: null,
   carName: "차량을 선택해주세요.",
+  carImage: null,
   carList: [],
   startDate: null,
   startHour: null,
@@ -21,9 +22,13 @@ const initialState = {
   endMinute: null,
   reserveStartDate: null,
   reserveEndDate: null,
+  reserveMinute: null,
+  reservePeriod: null,
+  totalPrice: null,
   showReserveLayout: false,
   showDateLayout: false,
   showCarLayout: false,
+  showDetailLayout: false,
 };
 
 export const reserve = createSlice({
@@ -40,6 +45,9 @@ export const reserve = createSlice({
     initCarNo: (state) => {
       state.carNo = null;
     },
+    initCarImage: (state) => {
+      state.carImage = null;
+    },
     initCarList: (state) => {
       state.carList = [];
     },
@@ -52,6 +60,9 @@ export const reserve = createSlice({
       state.endMinute = null;
       state.reserveStartDate = null;
       state.reserveEndDate = null;
+    },
+    initTotalPrice: (state) => {
+      state.totalPrice = null;
     },
     setCurrentPos: (state, action) => {
       state.currentPos = { ...action.payload };
@@ -73,6 +84,9 @@ export const reserve = createSlice({
     },
     setCarName: (state, action) => {
       state.carName = action.payload;
+    },
+    setCarImage: (state, action) => {
+      state.carImage = action.payload;
     },
     setZoneList: (state, action) => {
       state.zoneList = [...action.payload];
@@ -104,6 +118,15 @@ export const reserve = createSlice({
     setReserveEndDate: (state, action) => {
       state.reserveEndDate = action.payload;
     },
+    setReserveMinute: (state, action) => {
+      state.reserveMinute = action.payload;
+    },
+    setTotalPrice: (state, action) => {
+      state.totalPrice = action.payload;
+    },
+    setReservePeriod: (state, action) => {
+      state.reservePeriod = action.payload;
+    },
     showReserveLayout: (state) => {
       state.showReserveLayout = true;
     },
@@ -122,6 +145,12 @@ export const reserve = createSlice({
     hideDateLayout: (state) => {
       state.showDateLayout = false;
     },
+    showDetailLayout: (state) => {
+      state.showDetailLayout = true;
+    },
+    hideDetailLayout: (state) => {
+      state.showDetailLayout = false;
+    },
   },
 });
 
@@ -130,8 +159,10 @@ export const {
   initZoneAddress,
   initCarName,
   initCarNo,
+  initCarImage,
   initCarList,
   initDate,
+  initTotalPrice,
   setCurrentPos,
   setAddress,
   setSearchKeyword,
@@ -139,6 +170,7 @@ export const {
   setZoneNo,
   setCarNo,
   setCarName,
+  setCarImage,
   setZoneList,
   setCarList,
   setStartDate,
@@ -149,11 +181,16 @@ export const {
   setEndMinute,
   setReserveStartDate,
   setReserveEndDate,
+  setReserveMinute,
+  setReservePeriod,
+  setTotalPrice,
   showReserveLayout,
   hideReserveLayout,
   showCarLayout,
   hideCarLayout,
   showDateLayout,
   hideDateLayout,
+  showDetailLayout,
+  hideDetailLayout,
 } = reserve.actions;
 export default reserve.reducer;
