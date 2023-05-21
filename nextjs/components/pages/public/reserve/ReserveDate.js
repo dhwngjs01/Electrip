@@ -12,13 +12,11 @@ import { ko } from "date-fns/esm/locale";
 import {
   initDate,
   setEndDate,
-  setEndHour,
-  setEndMinute,
   setReserveEndDate,
+  setReserveMinute,
+  setReservePeriod,
   setReserveStartDate,
   setStartDate,
-  setStartHour,
-  setStartMinute,
 } from "@/redux/features/reserveSlice";
 
 export default function ReserveDate() {
@@ -40,8 +38,6 @@ export default function ReserveDate() {
   useEffect(() => {
     let now = new Date();
     let hourList = [];
-
-    dispatch(initDate());
 
     if (sDate) {
       dispatch(setStartDate(dayjs(sDate).format("YYYY-MM-DD")));
@@ -99,6 +95,21 @@ export default function ReserveDate() {
           dayjs(eDate).format("YYYY-MM-DD") + " " + eHour + ":" + eMinute
         )
       );
+
+      dispatch(
+        setReserveMinute(
+          Math.abs(
+            parseInt(
+              dayjs(
+                dayjs(eDate).format("YYYY-MM-DD") + " " + eHour + ":" + eMinute
+              ).diff(
+                dayjs(sDate).format("YYYY-MM-DD") + " " + sHour + ":" + sMinute,
+                "minute"
+              )
+            )
+          )
+        )
+      );
     }
   }, [sDate, sHour, sMinute, eDate, eHour, eMinute]);
 
@@ -115,6 +126,8 @@ export default function ReserveDate() {
       diffDate("hour") % 24 > 0 ? (diffDate("hour") % 24) + "시간 " : "";
     reservePeriod +=
       diffDate("minute") % 60 > 0 ? (diffDate("minute") % 60) + "분" : "";
+
+    dispatch(setReservePeriod(reservePeriod));
   }
 
   const handlerChangeDate = (dates) => {

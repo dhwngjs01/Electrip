@@ -4,11 +4,15 @@ import "./ReserveCarList.scss";
 import { Col, Image, Row } from "react-bootstrap";
 
 import {
+  initCarImage,
   initCarName,
   initCarNo,
+  initTotalPrice,
+  setCarImage,
   setCarList,
   setCarName,
   setCarNo,
+  setTotalPrice,
 } from "@/redux/features/reserveSlice";
 import { useEffect } from "react";
 import axios from "axios";
@@ -39,13 +43,23 @@ export default function ReserveCarList() {
     self = e.currentTarget;
     const carNo = self.dataset.carNo;
     const carName = self.dataset.carName;
+    const carPrice = self.dataset.carPrice;
+    const carImage = self.dataset.carImage;
 
     if (reserve.carNo == carNo) {
       dispatch(initCarNo());
       dispatch(initCarName());
+      dispatch(initCarImage());
+      dispatch(initTotalPrice());
     } else {
       dispatch(setCarNo(parseInt(carNo)));
       dispatch(setCarName(carName));
+      dispatch(setCarImage(carImage));
+      dispatch(
+        setTotalPrice(
+          Math.ceil(((carPrice / 24 / 60) * reserve.reserveMinute) / 100) * 100
+        )
+      );
     }
   };
 
@@ -63,6 +77,8 @@ export default function ReserveCarList() {
                   }
                   data-car-no={car.car_no}
                   data-car-name={car.car_name}
+                  data-car-price={car.car_price}
+                  data-car-image={car.car_image}
                   onClick={handleClickCar}
                 >
                   <Col sm={6}>
@@ -78,7 +94,12 @@ export default function ReserveCarList() {
                   <Col sm={6} className="text-end">
                     <h4 className="fw-bold word-keep-all">{car.car_name}</h4>
                     <h4 className="text-primary fw-bold">
-                      {car.car_price
+                      {(
+                        Math.ceil(
+                          ((car.car_price / 24 / 60) * reserve.reserveMinute) /
+                            100
+                        ) * 100
+                      )
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                       원

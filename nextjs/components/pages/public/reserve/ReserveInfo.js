@@ -1,4 +1,10 @@
-import { hideDateLayout, showCarLayout } from "@/redux/features/reserveSlice";
+import {
+  hideCarLayout,
+  hideDateLayout,
+  hideReserveLayout,
+  showCarLayout,
+  showDetailLayout,
+} from "@/redux/features/reserveSlice";
 import "./ReserveInfo.scss";
 
 import { Button, Col } from "react-bootstrap";
@@ -22,7 +28,14 @@ export default function ReserveInfo() {
   const handleCarNextButton = (e) => {
     if (!reserve.zoneNo || !reserve.carNo) {
       alert("대여 장소와 차량을 선택해주세요.");
-    } else if (reserve.zoneNo && reserve.carNo) {
+    } else if (
+      reserve.zoneNo &&
+      reserve.carNo &&
+      reserve.reserveStartDate &&
+      reserve.reserveEndDate
+    ) {
+      dispatch(hideReserveLayout());
+      dispatch(showDetailLayout());
     }
   };
 
@@ -81,6 +94,7 @@ export default function ReserveInfo() {
                 "btn-next w-100 fs-5 text-white rounded-0" +
                 (reserve.carNo ? " btn-active" : " btn-disabled")
               }
+              onClick={handleCarNextButton}
             >
               다음
             </Button>
