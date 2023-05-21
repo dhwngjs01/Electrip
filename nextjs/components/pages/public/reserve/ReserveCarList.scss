@@ -1,7 +1,7 @@
 .scrollbar {
-  max-height: inherit;
   overflow-x: hidden;
   overflow-y: scroll;
+  max-height: 650px;
 
   &::-webkit-scrollbar {
     width: 10px;
@@ -15,9 +15,16 @@
 
 .car-card {
   height: 200px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, border 0.3s;
   cursor: pointer;
+
   &:hover {
-    background-color: #ed6c02 !important;
+    background-color: #e5eff5 !important;
+    border-bottom: 1px solid #5091be !important;
   }
+}
+
+.car-card.selected-car {
+  background-color: #e5eff5 !important;
+  border-bottom: 1px solid #5091be !important;
 }

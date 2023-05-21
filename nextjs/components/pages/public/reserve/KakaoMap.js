@@ -1,18 +1,42 @@
+import axios from "axios";
 import "./KakaoMap.scss";
 
-import React, { useState } from "react";
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  hideDateLayout,
+  hideReserveLayout,
+  reset,
+  setZoneAddress,
+  setZoneNo,
+  showDateLayout,
+  showReserveLayout,
+} from "@/redux/features/reserveSlice";
+import { useEffect, useState } from "react";
 
-export default function KakaoMap(props) {
-  const [zoneSelected, setZoneSelected] = useState();
+export default function KakaoMap() {
+  const reserve = useSelector((state) => state.reserveReducer);
+  const dispatch = useDispatch();
+
+  const [zoneList, setZoneList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/reserve/zone`)
+      .then((res) => {
+        setZoneList(res.data);
+      });
+  }, []);
 
   const handleSelectZone = (e) => {
+    dispatch(reset());
+
     const selected = e.currentTarget;
     const address = selected.dataset.address;
-    props.setReserveZone(address);
+    dispatch(setZoneAddress(address));
 
     const clickedIndex = selected.getAttribute("index");
-    setZoneSelected(clickedIndex);
+    dispatch(setZoneNo(clickedIndex));
 
     document.querySelectorAll(".custom-overlay").forEach((overlay) => {
       const overlayZoneNo = overlay.dataset.zone_no;
@@ -20,9 +44,13 @@ export default function KakaoMap(props) {
       if (overlayZoneNo != clickedIndex) {
         overlay.classList.remove("custom-overlay-active");
       } else {
-        overlay.classList.toggle("custom-overlay-active") === false
-          ? props.setShowReserveCarSelectLayout(false)
-          : props.setShowReserveCarSelectLayout(true);
+        if (overlay.classList.toggle("custom-overlay-active")) {
+          dispatch(showReserveLayout());
+          dispatch(showDateLayout());
+        } else {
+          dispatch(hideReserveLayout());
+          dispatch(hideDateLayout());
+        }
       }
     });
   };
@@ -30,11 +58,11 @@ export default function KakaoMap(props) {
   return (
     <Map
       id="map"
-      center={props.currentPos}
+      center={reserve.currentPos}
       style={{ width: "100%", height: 700 }}
     >
       <MapMarker
-        position={props.currentPos}
+        position={reserve.currentPos}
         image={{
           src: "/images/current_location_marker.png",
           size: { width: 100 },
@@ -46,7 +74,7 @@ export default function KakaoMap(props) {
           },
         }}
       ></MapMarker>
-      {props.zoneList.map((zone, index) => (
+      {zoneList.map((zone, index) => (
         <div
           key={zone.zone_no}
           data-address={zone.zone_address}

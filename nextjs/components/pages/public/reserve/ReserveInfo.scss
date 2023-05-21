@@ -1,3 +1,26 @@
-.btn-next:hover {
-  background-color: #000 !important;
+.reserve-info {
+  background-color: #005ea0;
+  min-height: 650px;
+}
+
+button.btn-next {
+  transition: background-color 0.3s, border 0.3s;
+}
+button.btn-active {
+  background-color: #008bea;
+  border: 1px solid #008bea;
+  &:hover {
+    background-color: #00b3ff;
+    border: 1px solid #00b3ff;
+  }
+}
+
+button.btn-disabled {
+  background-color: #212529;
+  border: 1px solid #212529;
+
+  &:hover {
+    background-color: #212529;
+    border: 1px solid #212529;
+  }
 }

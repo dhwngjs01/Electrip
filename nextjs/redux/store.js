@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./features/counterSlice";
+import reserveReducer from "./features/reserveSlice";
 
 export const store = configureStore({
-  reducer: { counterReducer },
+  reducer: { reserveReducer },
   devTools: process.env.NODE_ENV !== "production",
 });

@@ -1,35 +1,15 @@
-.reserve-car-select-layout {
+.reserve-layout {
   overflow: hidden;
   transition: opacity 0.3s;
+  box-shadow: 0 0 7px #999;
 }
 
-.hide-select-car-layout {
+.hide-reserve-layout {
   max-height: 0;
   opacity: 0;
 }
 
-.show-select-car-layout {
+.show-reserve-layout {
   max-height: 100%;
   opacity: 1;
-}
-
-.car-card {
-  transition: background-color 0.3s;
-  .MuiTypography-root {
-    transition: color 0.3s;
-  }
-}
-
-.selected-car {
-  background-color: #ed6c02 !important;
-
-  .MuiTypography-root {
-    color: #fff;
-  }
-}
-
-@media (min-width: 1200px) {
-  .reserve-layout {
-    // max-height: 200px;
-  }
 }

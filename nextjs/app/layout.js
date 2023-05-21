@@ -3,7 +3,6 @@ import "./globals.scss";
 
 import { NextAuthProvider } from "@/components/common/Provider";
 import Navigation from "@/components/common/Navigation";
-import Script from "next/script";
 import { Providers } from "@/redux/provider";
 
 export default function RootLayout({ children }) {

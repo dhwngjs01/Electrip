@@ -1,16 +1,19 @@
 import "./ReserveMap.scss";
 
-import { useState } from "react";
 import KakaoMap from "./KakaoMap";
 import { FaSearch } from "react-icons/fa";
 import { BiCurrentLocation } from "react-icons/bi";
 import { Button, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setAddress,
+  setCurrentPos,
+  setSearchKeyword,
+} from "@/redux/features/reserveSlice";
 
-export default function ReserveMap(props) {
-  const [currentPos, setCurrentPos] = useState({
-    lat: 37.4514480321002,
-    lng: 126.651542258118,
-  });
+export default function ReserveMap() {
+  const reserve = useSelector((state) => state.reserveReducer);
+  const dispatch = useDispatch();
 
   const handleClickGpsIcon = (e) => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -18,18 +21,18 @@ export default function ReserveMap(props) {
       function (pos) {
         let lat = pos.coords.latitude;
         let lng = pos.coords.longitude;
-        setCurrentPos({ lat: lat, lng: lng });
+        dispatch(setCurrentPos({ lat: lat, lng: lng }));
 
         geocoder.coord2Address(lng, lat, function (result, status) {
           if (status === kakao.maps.services.Status.OK) {
             if (result[0].road_address) {
               // 도로명 주소 정보가 있을 경우
-              props.setAddress(result[0].road_address.address_name);
-              props.setSearchKeyword(result[0].road_address.address_name);
+              dispatch(setAddress(result[0].road_address.address_name));
+              dispatch(setSearchKeyword(result[0].road_address.address_name));
             } else {
               // 도로명 주소 정보가 없을 경우
-              props.setAddress(result[0].address.address_name);
-              props.setSearchKeyword(result[0].address.address_name);
+              dispatch(setAddress(result[0].address.address_name));
+              dispatch(setSearchKeyword(result[0].address.address_name));
             }
           }
         });
@@ -58,27 +61,30 @@ export default function ReserveMap(props) {
   const handleSubmitSearchForm = (e) => {
     e.preventDefault();
 
+    // 검색 키워드 설정
+    dispatch(setSearchKeyword(e.target.keyword.value));
+
     const geocoder = new kakao.maps.services.Geocoder();
-    geocoder.addressSearch(props.searchKeyword, function (result, status) {
+    geocoder.addressSearch(reserve.searchKeyword, function (result, status) {
       // 현재 위치 좌표 설정
       if (status === kakao.maps.services.Status.OK) {
         if (result[0].road_address) {
           // 도로명 주소 정보가 있을 경우
-          props.setAddress(result[0].road_address.address_name);
-          props.setSearchKeyword(result[0].road_address.address_name);
+          dispatch(setAddress(result[0].road_address.address_name));
+          dispatch(setSearchKeyword(result[0].road_address.address_name));
         } else {
           // 도로명 주소 정보가 없을 경우
-          props.setAddress(result[0].address.address_name);
-          props.setSearchKeyword(result[0].address.address_name);
+          dispatch(setAddress(result[0].address.address_name));
+          dispatch(setSearchKeyword(result[0].address.address_name));
         }
 
-        setCurrentPos({ lat: result[0].y, lng: result[0].x });
+        dispatch(setCurrentPos({ lat: result[0].y, lng: result[0].x }));
       }
     });
   };
 
   const handleChangeAddressInput = (e) => {
-    props.setSearchKeyword(e.target.value);
+    dispatch(setSearchKeyword(e.target.value));
   };
 
   return (
@@ -96,21 +102,14 @@ export default function ReserveMap(props) {
           name="keyword"
           placeholder="주소를 입력하세요."
           required
-          value={props.searchKeyword}
+          value={reserve.searchKeyword}
           onChange={handleChangeAddressInput}
         />
         <Button type="submit" className="rounded-0 rounded-end">
           <FaSearch />
         </Button>
       </Form>
-      <KakaoMap
-        zoneList={props.zoneList}
-        currentPos={currentPos}
-        address={props.address}
-        setReserveZone={props.setReserveZone}
-        searchKeyword={props.searchKeyword}
-        setShowReserveCarSelectLayout={props.setShowReserveCarSelectLayout}
-      />
+      <KakaoMap />
     </div>
   );
 }

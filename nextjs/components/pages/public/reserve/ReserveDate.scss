@@ -1,0 +1,93 @@
+.react-datepicker {
+  width: 100%;
+
+  .react-datepicker__navigation {
+    top: 1.5rem;
+  }
+
+  .react-datepicker__month-container {
+    width: 50%;
+
+    .react-datepicker__header {
+      padding: 12px 0;
+      background-color: transparent;
+      border-bottom: 0;
+    }
+
+    .react-datepicker__current-month {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .react-datepicker__day-name {
+      font-size: 1.2rem;
+      width: 3rem;
+      line-height: 3rem;
+    }
+    .react-datepicker__day {
+      font-size: 1.2rem;
+      width: 3.3rem;
+      line-height: 3rem;
+      margin: 0;
+    }
+
+    .react-datepicker__day--keyboard-selected:hover {
+      color: #fff;
+    }
+
+    .react-datepicker__day--range-start.react-datepicker__day--range-end.react-datepicker__day--in-range {
+      border-radius: 5px !important;
+    }
+
+    .react-datepicker__day--selecting-range-start,
+    .react-datepicker__day--range-start {
+      border-top-left-radius: 25px !important;
+      border-bottom-left-radius: 25px !important;
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+    }
+
+    .react-datepicker__day--in-selecting-range,
+    .react-datepicker__day--in-range {
+      border-radius: 0px;
+    }
+
+    .react-datepicker__day--selecting-range-end,
+    .react-datepicker__day--range-end {
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
+      border-top-right-radius: 25px !important;
+      border-bottom-right-radius: 25px !important;
+    }
+
+    .react-datepicker__day--range-end.react-datepicker__day--keyboard-selected {
+      background-color: #216ba5;
+      color: #fff;
+    }
+  }
+}
+
+.dateField {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #e7e6e6;
+  border-radius: 10px;
+  border: 1px solid #bfbfbf;
+  padding: 0 1.2rem;
+
+  h3 {
+    display: inline;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 200%;
+    margin: 0;
+  }
+
+  span {
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 200%;
+  }
+}
