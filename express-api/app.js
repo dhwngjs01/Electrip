@@ -26,9 +26,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // 라우터 설정
-app.use("/api", require("./routes/urls/main"));
+app.use("/", require("./routes/urls/main"));
 app.use("/api/auth", require("./routes/urls/auth"));
 app.use("/api/accounts", require("./routes/urls/accounts"));
+app.use("/api/reserve", require("./routes/urls/reserve"));
 
 // 404 처리 미들웨어
 app.use(function (req, res, next) {

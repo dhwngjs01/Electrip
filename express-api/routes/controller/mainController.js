@@ -1,3 +1,3 @@
 exports.main = (req, res) => {
-  res.send("하이");
+  res.send(new Date().toString());
 };
