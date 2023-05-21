@@ -21,7 +21,7 @@ exports.getCarListFromZone = async (req, res) => {
 
   // 장소에 해당하고 날짜 범위 안에 포함하지 않는 차량 가져오기
   const result = await db.query(
-    "select * from car where zone_no = $1 and car_no not in (select car_no from reserve where reserve_start_date < $2 and reserve_end_date > $3)",
+    "select * from car where zone_no = $1 and car_no not in (select car_no from reserve where reserve_start_date < $2 and reserve_end_date > $3) and car_active = true",
     [zoneNo, endDate, startDate]
   );
 
