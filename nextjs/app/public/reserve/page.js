@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { reset } from "@/redux/features/reserveSlice";
 import ReserveDate from "@/components/pages/public/reserve/ReserveDate";
+import ReserveDetail from "@/components/pages/public/reserve/ReserveDetail";
 
 // 예약 정보
 export default function Reserve() {
@@ -25,6 +26,7 @@ export default function Reserve() {
   return (
     <Container className="py-5">
       <ReserveMap />
+      <ReserveDetail />
       <div
         className={
           (reserve.showReserveLayout
@@ -37,6 +39,15 @@ export default function Reserve() {
           {reserve.showDateLayout && <ReserveDate />}
           {reserve.showCarLayout && <ReserveCarList />}
         </Row>
+      </div>
+      <div
+        className={
+          reserve.showDetailLayout
+            ? "show-detail-layout detail-layout"
+            : "hide-detail-layout detail-layout" + " mt-5"
+        }
+      >
+        {reserve.showDetailLayout && <ReserveDetail />}
       </div>
       <Script
         type="text/javascript"

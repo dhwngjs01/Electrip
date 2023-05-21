@@ -13,3 +13,18 @@
   max-height: 100%;
   opacity: 1;
 }
+
+.detail-layout {
+  overflow: hidden;
+  transition: opacity 0.3s;
+}
+
+.hide-detail-layout {
+  max-height: 0;
+  opacity: 0;
+}
+
+.show-detail-layout {
+  max-height: 100%;
+  opacity: 1;
+}
