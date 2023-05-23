@@ -55,29 +55,29 @@ const Join = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const user_id = event.target.user_id.value;
-    const user_pw = event.target.user_pw.value;
-    const user_pw2 = event.target.user_pw2.value;
-    const user_name = event.target.user_name.value;
-    const user_phone = event.target.user_phone.value;
-    const user_zipcode = event.target.user_zipcode.value;
-    const user_address = event.target.user_address.value;
-    const user_detail_address = event.target.user_detail_address.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    const password2 = event.target.password2.value;
+    const name = event.target.name.value;
+    const mobile = event.target.mobile.value;
+    const zipcode = event.target.zipcode.value;
+    const address = event.target.address.value;
+    const detail_address = event.target.detail_address.value;
 
-    if (user_pw !== user_pw2) {
+    if (password !== password2) {
       alert("비밀번호가 서로 일치하지 않습니다.");
       return;
     }
 
     const data = {
-      user_id,
-      user_pw,
-      user_pw2,
-      user_name,
-      user_phone,
-      user_zipcode,
-      user_address,
-      user_detail_address,
+      email,
+      password,
+      password2,
+      name,
+      mobile,
+      zipcode,
+      address,
+      detail_address,
     };
 
     axios.defaults.withCredentials = true;
@@ -93,7 +93,6 @@ const Join = () => {
           if (res.data.empty_value_required_list) {
             // 필수 입력사항 앞에 필수 입력사항임을 알리는 문구 표시
             document.querySelectorAll(".form-text").forEach((text) => {
-              console.log(text);
               text.classList.add("d-none");
             });
             res.data.empty_value_required_list.forEach((emptyInput) => {
@@ -107,8 +106,6 @@ const Join = () => {
           if (res.data.message) {
             alert(res.data.message);
           }
-
-          console.log(res.data);
         }
       })
       .catch((err) => {
@@ -133,11 +130,10 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="email"
-                  id="user_id"
-                  name="user_id"
+                  id="email"
+                  name="email"
                   placeholder="이메일"
                   autoFocus
-                  required
                 />
               </Col>
               <Col xs={6} className="mb-3">
@@ -146,10 +142,9 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="password"
-                  id="user_pw"
-                  name="user_pw"
+                  id="password"
+                  name="password"
                   placeholder="비밀번호"
-                  required
                 />
               </Col>
               <Col xs={6} className="mb-3">
@@ -158,10 +153,9 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="password"
-                  id="user_pw2"
-                  name="user_pw2"
+                  id="password2"
+                  name="password2"
                   placeholder="비밀번호 확인"
-                  required
                 />
               </Col>
               <Col xs={12} className="mb-3">
@@ -170,10 +164,9 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="text"
-                  id="user_name"
-                  name="user_name"
+                  id="name"
+                  name="name"
                   placeholder="이름"
-                  required
                 />
               </Col>
               <Col xs={12} className="mb-3">
@@ -182,12 +175,11 @@ const Join = () => {
                 </small>
                 <Form.Control
                   type="tel"
-                  id="user_phone"
-                  name="user_phone"
+                  id="mobile"
+                  name="mobile"
                   placeholder="휴대폰 번호"
                   value={phone}
                   onChange={handlePhone}
-                  required
                 />
               </Col>
             </Row>
@@ -195,8 +187,8 @@ const Join = () => {
               <Col xs={6} md={4} className="mb-2">
                 <Form.Control
                   type="text"
-                  id="user_zipcode"
-                  name="user_zipcode"
+                  id="zipcode"
+                  name="zipcode"
                   placeholder="우편번호"
                   value={zipcode}
                   readOnly
@@ -215,8 +207,8 @@ const Join = () => {
               <Col xs={12} className="mb-2">
                 <Form.Control
                   type="text"
-                  id="user_address"
-                  name="user_address"
+                  id="address"
+                  name="address"
                   placeholder="주소"
                   value={address}
                   readOnly
@@ -226,8 +218,8 @@ const Join = () => {
               <Col xs={12} className="mb-2">
                 <Form.Control
                   type="text"
-                  id="user_detail_address"
-                  name="user_detail_address"
+                  id="detail_address"
+                  name="detail_address"
                   placeholder="상세주소"
                   value={detailAddress}
                   readOnly={isPostcodeClicked}
