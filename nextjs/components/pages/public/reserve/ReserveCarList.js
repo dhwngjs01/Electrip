@@ -29,8 +29,8 @@ export default function ReserveCarList() {
         `${process.env.NEXT_PUBLIC_API_URL}/api/reserve/zone/${reserve.zoneNo}/carList`,
         {
           params: {
-            startDate: reserve.startDate,
-            endDate: reserve.endDate,
+            startDate: reserve.reserveStartDate,
+            endDate: reserve.reserveEndDate,
           },
         }
       )

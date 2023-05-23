@@ -1,5 +1,4 @@
 import {
-  hideCarLayout,
   hideDateLayout,
   hideReserveLayout,
   showCarLayout,

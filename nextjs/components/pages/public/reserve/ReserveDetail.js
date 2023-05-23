@@ -1,9 +1,10 @@
 import { reset } from "@/redux/features/reserveSlice";
+import axios from "axios";
 import dayjs from "dayjs";
-import "dayjs/locale/ko";
 import { useSession } from "next-auth/react";
 import { Button, Card, Col, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import "dayjs/locale/ko";
 
 export default function ReserveDetail() {
   dayjs.locale("ko");
@@ -11,7 +12,25 @@ export default function ReserveDetail() {
   const reserve = useSelector((state) => state.reserveReducer);
   const dispatch = useDispatch();
 
-  const handlerConfirm = (e) => {};
+  const handlerReserveConfirm = (e) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/api/reserve`, {
+        car_no: reserve.carNo,
+        user_no: session.data.user.user_no,
+        reserve_total_price: reserve.totalPrice,
+        reserve_start_zone_no: reserve.zoneNo,
+        reserve_start_date: reserve.reserveStartDate,
+        reserve_end_date: reserve.reserveEndDate,
+      })
+      .then((res) => {
+        if (res.data.message) alert(res.data.message);
+        dispatch(reset());
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.data.message) alert(err.response.data.message);
+      });
+  };
 
   const handlerCancel = (e) => {
     if (confirm("지금까지 저장된 정보가 모두 삭제됩니다. 취소하시겠습니까?")) {
@@ -94,7 +113,10 @@ export default function ReserveDetail() {
           </Card.Body>
           <Card.Footer className="d-flex">
             <div className="w-50 px-2">
-              <Button className="btn btn-primary w-100 text-center fs-5">
+              <Button
+                className="btn btn-primary w-100 text-center fs-5"
+                onClick={handlerReserveConfirm}
+              >
                 확인
               </Button>
             </div>

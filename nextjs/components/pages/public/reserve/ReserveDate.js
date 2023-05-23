@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { ko } from "date-fns/esm/locale";
 import {
-  initDate,
   setEndDate,
   setReserveEndDate,
   setReserveMinute,
@@ -96,20 +95,14 @@ export default function ReserveDate() {
         )
       );
 
-      dispatch(
-        setReserveMinute(
-          Math.abs(
-            parseInt(
-              dayjs(
-                dayjs(eDate).format("YYYY-MM-DD") + " " + eHour + ":" + eMinute
-              ).diff(
-                dayjs(sDate).format("YYYY-MM-DD") + " " + sHour + ":" + sMinute,
-                "minute"
-              )
-            )
-          )
-        )
+      let onlyMinute = dayjs(
+        dayjs(eDate).format("YYYY-MM-DD") + " " + eHour + ":" + eMinute
+      ).diff(
+        dayjs(sDate).format("YYYY-MM-DD") + " " + sHour + ":" + sMinute,
+        "minute"
       );
+
+      dispatch(setReserveMinute(Math.abs(parseInt(onlyMinute))));
     }
   }, [sDate, sHour, sMinute, eDate, eHour, eMinute]);
 

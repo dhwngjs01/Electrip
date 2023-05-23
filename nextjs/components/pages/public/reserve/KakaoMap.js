@@ -36,11 +36,10 @@ export default function KakaoMap() {
     dispatch(setZoneAddress(address));
 
     const clickedIndex = selected.getAttribute("index");
-    dispatch(setZoneNo(clickedIndex));
+    dispatch(setZoneNo(parseInt(clickedIndex)));
 
     document.querySelectorAll(".custom-overlay").forEach((overlay) => {
       const overlayZoneNo = overlay.dataset.zone_no;
-
       if (overlayZoneNo != clickedIndex) {
         overlay.classList.remove("custom-overlay-active");
       } else {
