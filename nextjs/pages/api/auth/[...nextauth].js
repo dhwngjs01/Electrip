@@ -17,7 +17,6 @@ export const authOptions = {
           name: profile.response.name,
           email: profile.response.email,
           mobile: profile.response.mobile,
-          emailVerified: profile.response.emailVerified,
         };
       },
     }),
@@ -30,8 +29,6 @@ export const authOptions = {
           id: profile.id,
           name: profile.properties.nickname,
           email: profile.kakao_account.email,
-          image: profile.properties.profile_image,
-          emailVerified: profile.kakao_account.is_email_verified,
         };
       },
     }),
@@ -43,7 +40,7 @@ export const authOptions = {
       // 아이디,비번 맞으면 return 결과, 틀리면 return null 해야함
       async authorize(credentials, req) {
         try {
-          let sql = `select * from user_cred where user_id = $1 and user_pw = $2 and user_is_active = true`;
+          let sql = `select * from users where email = $1 and password = $2 and is_active = true`;
           let user = await pool.query(sql, [
             credentials.user_id,
             credentials.user_pw,
@@ -74,16 +71,13 @@ export const authOptions = {
     // 4. jwt 만들 때 실행되는 코드
     // user변수는 DB의 유저정보담겨있고 token.user에 뭐 저장하면 jwt에 들어갑니다.
     jwt: async ({ token, user, profile }) => {
-      if (user && profile) {
+      if (user) {
         token.user = {};
-        token.user.id = user.id;
-        token.user.type = "users";
-        token.user.is_staff = user.is_staff;
-      } else if (user) {
-        token.user = {};
-        token.user.user_no = user.user_no;
-        token.user.type = "user_cred";
-        token.user.is_staff = user.user_is_staff;
+        token.user.user_no = user.id;
+        token.user.user_name = user.name;
+        token.user.user_email = user.email;
+        token.user.user_phone = user.mobile;
+        token.user.user_is_staff = user.is_staff;
       }
 
       return token;

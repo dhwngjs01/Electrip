@@ -3,14 +3,12 @@ export default function PostgresAdapter(client, options = {}) {
     async createUser(user) {
       try {
         const sql = `
-          INSERT INTO users (name, email, email_verified, image, mobile) 
-          VALUES ($1, $2, $3, $4, $5) 
-          RETURNING id, name, email, email_verified, image, mobile`;
+          INSERT INTO users (name, email, mobile) 
+          VALUES ($1, $2, $3) 
+          RETURNING id, name, email, mobile`;
         let result = await client.query(sql, [
           user.name,
           user.email,
-          user.emailVerified,
-          user.image,
           user.mobile,
         ]);
         return result.rows[0];
