@@ -19,6 +19,7 @@ export default function Main() {
       mousewheel={true}
       keyboard={true}
       touchReleaseOnEdges={true}
+      style={{ height: "100vh" }}
     >
       <SwiperSlide>
         <MainVisual />
