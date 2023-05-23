@@ -26,7 +26,6 @@ export default function Reserve() {
   return (
     <Container className="py-5">
       <ReserveMap />
-      <ReserveDetail />
       <div
         className={
           (reserve.showReserveLayout
