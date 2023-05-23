@@ -35,7 +35,14 @@ export const reserve = createSlice({
   name: "reserve",
   initialState,
   reducers: {
-    reset: () => initialState,
+    reset: (state) => {
+      document.querySelectorAll(".custom-overlay").forEach((overlay) => {
+        overlay.classList.remove("custom-overlay-active");
+      });
+
+      return initialState;
+    },
+
     initZoneAddress: (state) => {
       state.zoneAddress = "장소를 먼저 선택해주세요.";
     },
