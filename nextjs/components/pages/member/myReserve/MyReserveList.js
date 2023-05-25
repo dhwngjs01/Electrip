@@ -7,9 +7,10 @@ import { Card, Col, Row } from "react-bootstrap";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import ReserveStatus from "./ReserveStatus";
-import CancelBtn from "./CancelBtn";
+import CancelBtn from "./ReserveCancelBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { setReserveList } from "@/redux/features/myReserveSlice";
+import FinishBtn from "./FinishRentBtn";
 
 export default function MyReserveList() {
   dayjs.locale("ko");
@@ -150,6 +151,13 @@ export default function MyReserveList() {
                           <CancelBtn reserve_no={reserve.reserve_no} />
                         </Col>
                       )}
+
+                    {dayjs(now).isAfter(reserve.reserve_start_date) &&
+                      reserve.reserve_status === "예약중" && (
+                        <Col md={{ span: 8, offset: 4 }} className="text-end">
+                          <FinishBtn reserve_no={reserve.reserve_no} />
+                        </Col>
+                      )}
                   </Row>
                 </Col>
               </Row>
@@ -157,6 +165,19 @@ export default function MyReserveList() {
           </Card>
         </Col>
       ))}
+      {myReserve.reserveList.length === 0 && (
+        <Col md={{ span: 8 }}>
+          <Card className="mt-4">
+            <Card.Body className="p-4">
+              <Row className="align-items-center">
+                <Col md={12}>
+                  <h5 className="fw-bold text-center">예약 내역이 없습니다.</h5>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Col>
+      )}
     </Row>
   );
 }

@@ -14,7 +14,6 @@ export default function ReserveStatus({
 
   switch (reserve_status) {
     case "예약중":
-      console.log(now, start, dayjs(now).isAfter(start));
       if (dayjs(now).isAfter(start) && dayjs(now).isAfter(end)) {
         status = "대여기간 초과";
       } else if (dayjs(now).isAfter(start)) {
