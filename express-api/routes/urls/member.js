@@ -4,5 +4,6 @@ const controller = require("../controller/memberController");
 
 router.get("/myReserve", controller.getMyReserveList);
 router.put("/myReserve/cancel", controller.cancelMyReserve);
+router.put("/myReserve/finish", controller.finishReserve);
 
 module.exports = router;
