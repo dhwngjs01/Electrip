@@ -27,10 +27,11 @@ exports.getCarListFromZone = async (req, res) => {
     car_no not IN 
       (
         select car_no from reserve WHERE 
-        (reserve_start_date BETWEEN $2 AND $3) OR 
+        ((reserve_start_date BETWEEN $2 AND $3) OR 
         (reserve_end_date BETWEEN $2 and $3) OR 
         ($2 BETWEEN reserve_start_date AND reserve_end_date) OR 
-        ($3 BETWEEN reserve_start_date AND reserve_end_date)
+        ($3 BETWEEN reserve_start_date AND reserve_end_date)) AND 
+        reserve_status = '예약중'
       ) AND 
     car_active = true`,
     [zoneNo, startDate, endDate]
@@ -43,23 +44,15 @@ exports.reserve = async (req, res) => {
   let user_no = req.body.user_no;
   let car_no = req.body.car_no;
   let reserve_total_price = req.body.reserve_total_price;
-  let reserve_start_zone_no = req.body.reserve_start_zone_no;
   let reserve_start_date = req.body.reserve_start_date;
   let reserve_end_date = req.body.reserve_end_date;
 
   // 예약하기
   const result = await db.query(
     `INSERT INTO reserve
-    (user_no, car_no, reserve_total_price, reserve_start_zone_no, reserve_start_date, reserve_end_date)
-    VALUES ($1, $2, $3, $4, $5, $6)`,
-    [
-      user_no,
-      car_no,
-      reserve_total_price,
-      reserve_start_zone_no,
-      reserve_start_date,
-      reserve_end_date,
-    ]
+    (user_no, car_no, reserve_total_price, reserve_start_date, reserve_end_date)
+    VALUES ($1, $2, $3, $4, $5)`,
+    [user_no, car_no, reserve_total_price, reserve_start_date, reserve_end_date]
   );
 
   if (result.rowCount == 1) {
