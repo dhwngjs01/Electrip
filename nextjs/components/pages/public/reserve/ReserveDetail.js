@@ -1,3 +1,5 @@
+"use client";
+
 import { reset } from "@/redux/features/reserveSlice";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -5,12 +7,14 @@ import { useSession } from "next-auth/react";
 import { Button, Card, Col, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "dayjs/locale/ko";
+import { useRouter } from "next/navigation";
 
 export default function ReserveDetail() {
   dayjs.locale("ko");
   const session = useSession();
   const reserve = useSelector((state) => state.reserveReducer);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handlerReserveConfirm = (e) => {
     axios
@@ -18,13 +22,12 @@ export default function ReserveDetail() {
         car_no: reserve.carNo,
         user_no: session.data.user.user_no,
         reserve_total_price: reserve.totalPrice,
-        reserve_start_zone_no: reserve.zoneNo,
         reserve_start_date: reserve.reserveStartDate,
         reserve_end_date: reserve.reserveEndDate,
       })
       .then((res) => {
         if (res.data.message) alert(res.data.message);
-        dispatch(reset());
+        router.push("/member/myReserve");
       })
       .catch((err) => {
         console.log(err);

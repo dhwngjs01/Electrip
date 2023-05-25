@@ -28,6 +28,7 @@ export default function KakaoMap() {
       });
   }, []);
 
+  // 지도 클릭 시, 해당 위치의 주소를 가져옴
   const handleSelectZone = (e) => {
     dispatch(reset());
 

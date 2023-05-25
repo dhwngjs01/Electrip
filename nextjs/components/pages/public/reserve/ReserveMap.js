@@ -1,3 +1,5 @@
+"use client";
+
 import "./ReserveMap.scss";
 
 import KakaoMap from "./KakaoMap";
