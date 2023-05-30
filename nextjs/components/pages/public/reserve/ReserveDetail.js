@@ -26,12 +26,15 @@ export default function ReserveDetail() {
         reserve_end_date: reserve.reserveEndDate,
       })
       .then((res) => {
-        if (res.data.message) alert(res.data.message);
-        router.push("/member/myReserve");
+        if (res.data.message) {
+          alert(res.data.message);
+          window.location.href = "/member/myReserve";
+        }
       })
       .catch((err) => {
-        console.log(err);
-        if (err.response.data.message) alert(err.response.data.message);
+        if (err.response.data.message) {
+          alert(err.response.data.message);
+        }
       });
   };
 
