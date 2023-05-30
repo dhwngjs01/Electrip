@@ -1,19 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { FaBars, FaSignOutAlt, FaUserCircle } from "react-icons/fa/";
-import {
-  Button,
-  Container,
-  Image,
-  NavDropdown,
-  Navbar,
-  Tooltip,
-  Nav,
-} from "react-bootstrap";
+import { Container, Image, Navbar, Nav } from "react-bootstrap";
 import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Navigation() {
   const session = useSession();
@@ -67,9 +58,9 @@ export default function Navigation() {
                     회원가입
                   </Nav.Link>
                 </>
-              ) : session.data.user.is_staff ? (
+              ) : session.data.user.user_is_staff ? (
                 <>
-                  <Nav.Link className="text-light" href="/admin">
+                  <Nav.Link className="text-light" href="/admin/dashboard">
                     관리자페이지
                   </Nav.Link>
                   <Nav.Link className="text-light" onClick={() => signOut()}>
@@ -87,99 +78,83 @@ export default function Navigation() {
       </Navbar>
     );
   }
-  /* 
-  function MobileNavBar() {
+
+  function AdminNavBar() {
+    const subMenu = [
+      { link: "/admin/dashboard", name: "대시보드" },
+      { link: "/admin/users", name: "회원관리" },
+      { link: "/admin/cars", name: "차량관리" },
+      { link: "/admin/locations", name: "장소관리" },
+      { link: "/admin/reservations", name: "대여관리" },
+      { link: "/admin/statistics", name: "통계" },
+    ];
+
     return (
       <>
-        <div style={{ flexGrow: 1, display: { sm: "flex", md: "none" } }}>
-          <Tooltip title="메뉴 열기">
-            <FaBars size="large" onClick={handleOpenNavMenu} color="inherit">
-              <FaBars />
-            </FaBars>
-          </Tooltip>
-          <NavDropdown
-            id="menu-appbar"
-            anchorEl={clickMainNav}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(clickMainNav)}
-            onClose={handleCloseNavMenu}
-            style={{
-              display: { sm: "block", md: "none" },
-            }}
-          >
-            {mainMenu.map((menu, i) => (
-              <NavDropdown.Item
-                href={menu.link}
-                key={menu.name}
-                onClick={handleCloseNavMenu}
-              >
-                <p textAlign="center">{menu.name}</p>
-              </NavDropdown.Item>
-            ))}
-          </NavDropdown>
-        </div>
-        <div
-          style={{ flexGrow: 1, py: 1, display: { sm: "flex", md: "none" } }}
-        >
-          <Link href="/">
-            <div
-              component="img"
-              src="/images/logo.png"
-              title="ELECTRIP LOGO"
-              alt="ELECTRIP"
-              style={{
-                maxWidth: "100px",
-              }}
-            />
-          </Link>
-        </div>
-        <div style={{ flexGrow: 0, display: { sm: "flex", md: "none" } }}>
-          <Tooltip title="사용자 메뉴 열기">
-            <FaUserCircle
-              fontSize="inherit"
-              style={{ color: "#fff" }}
-              onClick={handleOpenUserMenu}
-              size="large"
-            />
-          </Tooltip>
-          <NavDropdown
-            style={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={clickUserNav}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(clickUserNav)}
-            onClose={handleCloseUserMenu}
-          >
-            {utilMenu.notLogin.map((util, i) => (
-              <NavDropdown.Item
-                href={util.link}
-                key={util.name}
-                onClick={handleCloseUserMenu}
-              >
-                <p textAlign="center">{util.name}</p>
-              </NavDropdown.Item>
-            ))}
-          </NavDropdown>
+        <Navbar className="w-100" style={{ backgroundColor: "#417690" }}>
+          <Container>
+            <Navbar.Brand href="/">
+              <Image
+                src="/images/admin_logo.png"
+                title="ELECTRIP LOGO"
+                alt="ELECTRIP"
+                style={{
+                  maxWidth: "150px",
+                }}
+              />
+            </Navbar.Brand>
+            {session.status === "authenticated" && (
+              <Nav className="ms-auto main-nav me-5 text-white">
+                환영합니다.{" "}
+                <span style={{ color: "#ffc100" }}>
+                  {session.data.user.user_name}님
+                </span>
+              </Nav>
+            )}
+            <Nav className="util-nav">
+              <Nav.Link className="text-light" href="#">
+                비밀번호 변경
+              </Nav.Link>
+              <Nav.Link className="text-light" onClick={() => signOut()}>
+                로그아웃
+              </Nav.Link>
+            </Nav>
+          </Container>
+        </Navbar>
+        <div className="w-100" style={{ backgroundColor: "#79aec8" }}>
+          <Container>
+            <nav>
+              <ol className="breadcrumb py-2">
+                <li className="breadcrumb-item">
+                  <Link
+                    href="/admin/dashboard"
+                    className="text-white text-decoration-none"
+                  >
+                    Home
+                  </Link>
+                </li>
+                {subMenu.map(
+                  (menu, key) =>
+                    pathname === menu.link && (
+                      <li
+                        key={key}
+                        className="breadcrumb-item active text-white"
+                      >
+                        {menu.name}
+                      </li>
+                    )
+                )}
+              </ol>
+            </nav>
+          </Container>
         </div>
       </>
     );
-  } */
+  }
 
-  return <PcNavBar />;
+  if (pathname.includes("/admin")) {
+    return <AdminNavBar />;
+  } else {
+    return <PcNavBar />;
+  }
 }

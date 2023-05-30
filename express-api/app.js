@@ -31,6 +31,7 @@ app.use("/api/auth", require("./routes/urls/auth"));
 app.use("/api/accounts", require("./routes/urls/accounts"));
 app.use("/api/reserve", require("./routes/urls/reserve"));
 app.use("/api/member", require("./routes/urls/member"));
+app.use("/api/admin", require("./routes/urls/admin"));
 
 // 404 처리 미들웨어
 app.use(function (req, res, next) {
