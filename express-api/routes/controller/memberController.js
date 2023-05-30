@@ -29,24 +29,19 @@ exports.cancelMyReserve = async (req, res) => {
 };
 
 // 대여 종료
-exports.finishReserve = async (req, res) => {
+exports.finishMyReserve = async (req, res) => {
   if (req.method == "PUT") {
-    console.log(req.body);
+    const sql = `UPDATE reserve SET reserve_status = '대여종료', reserve_real_end_date=NOW() WHERE reserve_no = $1;`;
+    const result = await db.query(sql, [req.body.reserve_no]);
 
-    // const sql = `UPDATE reserve SET reserve_status = $1 WHERE reserve_no = $2;`;
-    // const result = await db.query(sql, [
-    //   req.body.reserve_status,
-    //   req.body.reserve_no,
-    // ]);
-
-    // if (result.rowCount > 0) {
-    //   res
-    //     .status(200)
-    //     .json({ success: true, message: "예약 상태가 변경되었습니다." });
-    // } else {
-    //   res
-    //     .status(500)
-    //     .json({ message: "예약 상태를 변경하던 중 오류가 발생했습니다." });
-    // }
+    if (result.rowCount > 0) {
+      res
+        .status(200)
+        .json({ success: true, message: "예약 상태가 변경되었습니다." });
+    } else {
+      res
+        .status(500)
+        .json({ message: "예약 상태를 변경하던 중 오류가 발생했습니다." });
+    }
   }
 };
