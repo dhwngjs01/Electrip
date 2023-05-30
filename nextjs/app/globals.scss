@@ -92,3 +92,29 @@ body {
   background-color: #008bea;
   border: 1px solid #008bea;
 }
+
+.breadcrumb-item + .breadcrumb-item::before {
+  float: left;
+  padding-right: var(--bs-breadcrumb-item-padding-x);
+  color: #fff;
+  content: var(--bs-breadcrumb-divider, "＞");
+}
+
+.list-group-item.active {
+  z-index: 2;
+  color: #fafccb;
+  background-color: #79aec8;
+  border-color: #79aec8;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: var(--bs-list-group-item-padding-y)
+    var(--bs-list-group-item-padding-x);
+  color: #79aec8;
+  text-decoration: none;
+  background-color: var(--bs-list-group-bg);
+  border: var(--bs-list-group-border-width) solid
+    var(--bs-list-group-border-color);
+}
