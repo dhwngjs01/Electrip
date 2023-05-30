@@ -20,6 +20,8 @@ export default function MyReserveList() {
   const dispatch = useDispatch();
   const now = dayjs().format("YYYY-MM-DD HH:mm");
 
+  const [reserveCount, setReserveCount] = useState(null);
+
   useEffect(() => {
     const getReserveList = async () => {
       if (session.data) {
@@ -29,6 +31,7 @@ export default function MyReserveList() {
           );
 
           dispatch(setReserveList([...response.data]));
+          setReserveCount(response.data.length);
         } catch (error) {
           console.error(error);
         }
@@ -165,7 +168,7 @@ export default function MyReserveList() {
           </Card>
         </Col>
       ))}
-      {myReserve.reserveList.length === 0 && (
+      {reserveCount === 0 && (
         <Col md={{ span: 8 }}>
           <Card className="mt-4">
             <Card.Body className="p-4">

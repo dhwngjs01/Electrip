@@ -23,7 +23,7 @@ export default function ReserveStatus({
       }
       break;
     default:
-      status = reserve_status;
+      status = reserve_status.trim();
       break;
   }
 
