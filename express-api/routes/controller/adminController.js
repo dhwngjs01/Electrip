@@ -27,13 +27,12 @@ exports.getDashboard = async (req, res) => {
   summary_data.month_sales.data = result.rows[0].month_sales;
 
   // 2. 올해 매출
-
   sql = `SELECT SUM(reserve_total_price) AS year_sales FROM reserve WHERE DATE_PART('year', reserve_start_date) = DATE_PART('year', NOW())`;
   var result = await db.query(sql);
   summary_data.year_sales.data = result.rows[0].year_sales;
 
   // 3. 보류 중인 차량
-  sql = `SELECT COUNT(*) AS pending_cars FROM reserve WHERE reserve_status = 'pending'`;
+  sql = `SELECT COUNT(*) AS pending_cars FROM car WHERE car_is_active = false`;
   var result = await db.query(sql);
   summary_data.pending_cars.data = result.rows[0].pending_cars;
 
@@ -43,7 +42,7 @@ exports.getDashboard = async (req, res) => {
   summary_data.user_count.data = result.rows[0].user_count;
 
   // 5. 일일 차량 대여 건 수
-  sql = `SELECT COUNT(*) AS reserve_count FROM reserve WHERE reserve_status = '대여종료'`;
+  sql = `SELECT COUNT(*) AS reserve_count FROM reserve WHERE reserve_status = '대여종료' AND DATE_PART('day', reserve_start_date) = DATE_PART('day', NOW())`;
   var result = await db.query(sql);
   summary_data.reserve_count.data = result.rows[0].reserve_count;
 
@@ -114,4 +113,13 @@ exports.carStateControl = async (req, res) => {
   var result = await db.query(sql, [req.params.car_no]);
 
   res.status(200).json({ success: true });
+};
+
+exports.getCarInfo = async (req, res) => {
+  // 차량 정보 가져오기
+  const result = await db.query(`SELECT * FROM car WHERE car_no = $1`, [
+    req.params.car_no,
+  ]);
+
+  res.status(200).json(result.rows[0]);
 };
