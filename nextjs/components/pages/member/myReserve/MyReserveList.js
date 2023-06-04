@@ -174,7 +174,9 @@ export default function MyReserveList() {
             <Card.Body className="p-4">
               <Row className="align-items-center">
                 <Col md={12}>
-                  <h5 className="fw-bold text-center">예약 내역이 없습니다.</h5>
+                  <h5 className="fw-bold text-center mb-0">
+                    예약 내역이 없습니다.
+                  </h5>
                 </Col>
               </Row>
             </Card.Body>
