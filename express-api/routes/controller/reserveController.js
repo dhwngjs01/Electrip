@@ -33,7 +33,7 @@ exports.getCarListFromZone = async (req, res) => {
         ($3 BETWEEN reserve_start_date AND reserve_end_date)) AND 
         reserve_status = '예약중'
       ) AND 
-    car_active = true`,
+    car_is_active = true`,
     [zoneNo, startDate, endDate]
   );
 
