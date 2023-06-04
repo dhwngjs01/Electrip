@@ -45,10 +45,9 @@ export default function UserList() {
               return user;
             })
           );
+          setShow(false);
         }
       });
-
-    setShow(false);
   };
 
   return (

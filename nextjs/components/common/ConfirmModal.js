@@ -3,10 +3,12 @@
 import { Button, Modal } from "react-bootstrap";
 
 export default function ConfirmModal(props) {
-  const handleClose = () => props.setShow(false);
+  const handlerClose = () => {
+    props.setShow(false);
+  };
 
   return (
-    <Modal show={props.show} onHide={handleClose} centered>
+    <Modal show={props.show} onHide={handlerClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
@@ -15,7 +17,7 @@ export default function ConfirmModal(props) {
         <Button variant={props.confirmBtnClass} onClick={props.handlerConfirm}>
           {props.confirmBtnText}
         </Button>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handlerClose}>
           취소
         </Button>
       </Modal.Footer>
