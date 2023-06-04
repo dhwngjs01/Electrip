@@ -1,9 +1,12 @@
+import CarAddButton from "@/components/pages/admin/cars/CarAddButton";
 import CarList from "@/components/pages/admin/cars/CarList";
 
 export default function Cars() {
   return (
     <>
-      <h3>차량관리</h3>
+      <h3>
+        차량관리 <CarAddButton />
+      </h3>
       <table className="table table-responsive text-center align-middle mt-3">
         <colgroup>
           <col className="col-2" />

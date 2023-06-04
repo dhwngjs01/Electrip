@@ -3,12 +3,13 @@
 import { Button, Modal } from "react-bootstrap";
 
 export default function ConfirmModal(props) {
+  const size = props.size ? props.size : "md";
   const handlerClose = () => {
     props.setShow(false);
   };
 
   return (
-    <Modal show={props.show} onHide={handlerClose} centered>
+    <Modal show={props.show} onHide={handlerClose} centered size={size}>
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>

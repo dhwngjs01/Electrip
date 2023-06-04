@@ -5,6 +5,8 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { FaCheckCircle, FaEdit, FaTrashAlt } from "react-icons/fa";
 import ConfirmModal from "@/components/common/ConfirmModal";
+import { Card, Col, Row } from "react-bootstrap";
+import CarInfo from "./CarInfo";
 
 export default function CarList() {
   const [cars, setCars] = useState(null);
@@ -13,8 +15,9 @@ export default function CarList() {
   const [body, setBody] = useState(null);
   const [confirmBtnClass, setConfirmBtnClass] = useState(null);
   const [confirmBtnText, setConfirmBtnText] = useState(null);
-  const [carNo, setCarNo] = useState(null);
   const [action, setAction] = useState(null);
+  const [carNo, setCarNo] = useState(null);
+  const [size, setSize] = useState(null);
 
   useEffect(() => {
     axios
@@ -28,85 +31,14 @@ export default function CarList() {
     const car_no = e.currentTarget.dataset.car_no;
     const car_name = e.currentTarget.dataset.car_name;
 
+    setAction("modify");
+    setCarNo(car_no);
     setTitle(`${car_name} 수정`);
-    setBody(modifyLayout());
+    setBody(<CarInfo carNo={car_no} />);
     setConfirmBtnClass("primary");
     setConfirmBtnText("수정");
-    setCarNo(car_no);
-    setAction("modify");
+    setSize("lg");
     setShow(true);
-  };
-
-  const modifyLayout = () => {
-    return (
-      <form>
-        <div className="mb-3">
-          <label htmlFor="car_name" className="form-label">
-            모델명
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="car_name"
-            name="car_name"
-            placeholder="모델명을 입력하세요."
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="car_plate" className="form-label">
-            번호판
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="car_plate"
-            name="car_plate"
-            placeholder="번호판을 입력하세요."
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="car_class" className="form-label">
-            분류
-          </label>
-          <select className="form-select" id="car_class" name="car_class">
-            <option value="경형">경형</option>
-            <option value="소형">소형</option>
-            <option value="준중형">준중형</option>
-            <option value="중형">중형</option>
-            <option value="대형">대형</option>
-            <option value="SUV">SUV</option>
-            <option value="RV">RV</option>
-            <option value="승합차">승합차</option>
-            <option value="전기차">전기차</option>
-            <option value="수입차">수입차</option>
-          </select>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="car_image" className="form-label">
-            이미지
-          </label>
-          <input
-            type="file"
-            className="form-control"
-            id="car_image"
-            name="car_image"
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="car_is_active" className="form-label">
-            상태
-          </label>
-          <select
-            className="form-select"
-            id="car_is_active"
-            name="car_is_active"
-          >
-            <option value="true">활성화</option>
-            <option value="false">비활성화</option>
-          </select>
-        </div>
-      </form>
-    );
   };
 
   const handlerModifyCar = (car) => {
@@ -132,6 +64,7 @@ export default function CarList() {
     setConfirmBtnClass(changeCarState === "활성화" ? "success" : "danger");
     setCarNo(carNo);
     setAction("changeCarState");
+    setSize("md");
     setShow(true);
   };
 
@@ -185,11 +118,8 @@ export default function CarList() {
                 <p className="mb-0">
                   {dayjs(car.car_created_at).format("YYYY-MM-DD")}
                 </p>
-                <p className="mb-0">
-                  {dayjs(car.car_created_at).format("HH:mm:ss")}
-                </p>
               </td>
-              <td>
+              <td className="bg-white">
                 <FaEdit
                   className="text-primary fs-4 me-2 cursor-pointer"
                   data-car_no={car.car_no}
@@ -206,7 +136,7 @@ export default function CarList() {
                   />
                 ) : (
                   <FaCheckCircle
-                    className="text-dark fs-4 cursor-pointer"
+                    className="text-success fs-4 cursor-pointer"
                     data-car_no={car.car_no}
                     data-confirm_btn_text="활성화"
                     onClick={handlerChangeCarStateOpenModal}
@@ -226,6 +156,7 @@ export default function CarList() {
           action === "modify" ? handlerModifyCar : handlerChangeCarState
         }
         setShow={setShow}
+        size={size}
       />
     </>
   );
