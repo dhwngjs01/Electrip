@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { ListGroup } from "react-bootstrap";
 
-export default function AdminNavigation() {
+export default function AdminSideBar() {
   const pathname = usePathname();
 
   return (

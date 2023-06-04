@@ -126,12 +126,12 @@ export default function Navigation() {
             <nav>
               <ol className="breadcrumb py-2">
                 <li className="breadcrumb-item">
-                  <Link
+                  <a
                     href="/admin/dashboard"
                     className="text-white text-decoration-none"
                   >
                     Home
-                  </Link>
+                  </a>
                 </li>
                 {subMenu.map(
                   (menu, key) =>
