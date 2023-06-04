@@ -27,8 +27,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // 라우터 설정
 app.use("/", require("./routes/urls/main"));
-app.use("/api/auth", require("./routes/urls/auth"));
-app.use("/api/accounts", require("./routes/urls/accounts"));
 app.use("/api/reserve", require("./routes/urls/reserve"));
 app.use("/api/member", require("./routes/urls/member"));
 app.use("/api/admin", require("./routes/urls/admin"));
