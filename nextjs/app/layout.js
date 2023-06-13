@@ -20,6 +20,11 @@ export default function RootLayout({ children }) {
               <Navigation />
               {children}
             </div>
+            <script
+              type="text/javascript"
+              src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&libraries=services,clusterer,drawing`}
+              strategy="beforeInteractive"
+            />
           </NextAuthProvider>
         </Providers>
       </body>

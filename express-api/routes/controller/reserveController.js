@@ -2,7 +2,13 @@ const db = require("../../util/db");
 
 exports.getZoneList = async (req, res) => {
   // 모든 장소 목록 가져오기
-  const result = await db.query("select * from zone");
+  // 차량 개수도 가져오기
+  const result = await db.query(`SELECT zone.*, COUNT(car.car_no) AS car_count
+  FROM zone
+  LEFT JOIN car ON zone.zone_no = car.zone_no
+  WHERE zone.zone_is_active = true
+  GROUP BY zone.zone_no
+  ORDER BY zone.zone_no desc;`);
 
   res.status(200).json(result.rows);
 };
@@ -12,6 +18,22 @@ exports.getAllCarList = async (req, res) => {
   const result = await db.query("select * from car");
 
   res.status(200).json(result.rows);
+};
+
+exports.getZoneInfo = async (req, res) => {
+  zoneNo = req.params.zoneNo;
+
+  // 장소 정보 가져오기
+  const result = await db.query(
+    `SELECT zone.*, COUNT(car.car_no) AS car_count
+    FROM zone
+    LEFT JOIN car ON zone.zone_no = car.zone_no
+    WHERE zone.zone_no = $1
+    GROUP BY zone.zone_no;`,
+    [zoneNo]
+  );
+
+  res.status(200).json(result.rows[0]);
 };
 
 exports.getCarListFromZone = async (req, res) => {

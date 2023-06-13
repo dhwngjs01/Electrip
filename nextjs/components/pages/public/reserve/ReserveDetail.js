@@ -113,7 +113,7 @@ export default function ReserveDetail() {
           </Card.Header>
           <Card.Body className="px-5 py-5 my-5">
             <Image
-              src={`/images/cars/${reserve.carImage}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/images/${reserve.carImage}`}
               className="w-100 d-block"
             />
           </Card.Body>

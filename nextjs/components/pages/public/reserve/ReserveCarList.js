@@ -83,7 +83,7 @@ export default function ReserveCarList() {
                 >
                   <Col sm={6}>
                     <Image
-                      src={`/images/cars/${car.car_image}`}
+                      src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/images/${car.car_image}`}
                       title={car.car_name}
                       alt={car.car_name}
                       style={{

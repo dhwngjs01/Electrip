@@ -72,7 +72,7 @@ export default function MyReserveList() {
         <Col key={key} md={{ span: 8 }}>
           <Card className="mt-4">
             <Card.Title className="bg-light p-3 mb-0 rounded-top">
-              <h4 className="mb-0">
+              <h4 className="mb-0 ">
                 <ReserveStatus
                   reserve_status={reserve.reserve_status}
                   reserve_start_date={reserve.reserve_start_date}
@@ -94,54 +94,51 @@ export default function MyReserveList() {
                   />
                 </Col>
                 <Col md={7}>
-                  <Row className="align-items-center">
-                    <Col md={4}>
-                      <h5 className="fw-bold">대여장소</h5>
+                  <Row className="align-items-center gy-3">
+                    <Col md={3}>
+                      <span className="fw-bold">대여장소</span>
                     </Col>
-                    <Col md={8}>
-                      <p className="text-end">{reserve.zone_address}</p>
-                      {reserve.zone_detail_address && (
-                        <p className="text-end">
-                          {reserve.zone_detail_address}
-                        </p>
-                      )}
+                    <Col md={9}>
+                      <p className="text-end word-keep-all mb-0">
+                        {reserve.zone_address} {reserve.zone_detail_address}
+                      </p>
                     </Col>
-                    <Col md={4}>
-                      <h5 className="fw-bold">대여일시</h5>
+                    <Col md={3}>
+                      <span className="fw-bold">대여일시</span>
                     </Col>
-                    <Col md={8}>
-                      <p className="text-end">
+                    <Col md={9}>
+                      <p className="text-end mb-0">
                         {dayjs(reserve.reserve_start_date).format(
                           "YYYY년 MM월 DD일 (ddd) HH:mm"
                         )}
                       </p>
                     </Col>
-                    <Col md={4}>
-                      <h5 className="fw-bold">반납일시</h5>
+                    <Col md={3}>
+                      <span className="fw-bold">반납일시</span>
                     </Col>
-                    <Col md={8}>
-                      <p className="text-end">
+                    <Col md={9}>
+                      <p className="text-end mb-0">
                         {dayjs(reserve.reserve_end_date).format(
                           "YYYY년 MM월 DD일 (ddd) HH:mm"
                         )}
                       </p>
                     </Col>
-                    <Col md={4}>
-                      <h5 className="fw-bold">총 대여 기간</h5>
+                    <Col md={3}>
+                      <span className="fw-bold">총 대여 기간</span>
                     </Col>
-                    <Col md={8}>
-                      <p className="text-danger fs-5 text-end">
+                    <Col md={9}>
+                      <p className="text-danger fs-5 text-end mb-0">
                         {reservePeriod(
                           reserve.reserve_start_date,
                           reserve.reserve_end_date
                         )}
                       </p>
                     </Col>
-                    <Col md={4}>
-                      <h5 className="fw-bold">총 금액</h5>
+                    <Col md={3}>
+                      <span className="fw-bold">총 금액</span>
                     </Col>
-                    <Col md={8}>
-                      <p className="fs-5 text-end">
+                    <Col md={9}>
+                      <p className="fs-5 text-end mb-0">
                         {reserve.reserve_total_price
                           .toString()
                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " "}

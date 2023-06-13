@@ -4,9 +4,12 @@ import { Button, Modal } from "react-bootstrap";
 
 export default function ConfirmModal(props) {
   const size = props.size ? props.size : "md";
-  const handlerClose = () => {
-    props.setShow(false);
-  };
+
+  const handlerClose = props.handlerClose
+    ? props.handlerClose
+    : () => {
+        props.setShow(false);
+      };
 
   return (
     <Modal show={props.show} onHide={handlerClose} centered size={size}>

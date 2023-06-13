@@ -4,6 +4,8 @@ import ConfirmModal from "@/components/common/ConfirmModal";
 import { useState } from "react";
 
 import AddCarForm from "./AddCarForm";
+import { useDispatch } from "react-redux";
+import { reset } from "@/redux/features/carSlice";
 
 export default function CarAddButton() {
   const [show, setShow] = useState(false);
@@ -11,6 +13,8 @@ export default function CarAddButton() {
   const [body, setBody] = useState(null);
   const [confirmBtnClass, setConfirmBtnClass] = useState(null);
   const [confirmBtnText, setConfirmBtnText] = useState(null);
+
+  const dispatch = useDispatch();
 
   const handlerOpenCarAddModal = (e) => {
     setTitle("차량 등록");
@@ -21,7 +25,12 @@ export default function CarAddButton() {
   };
 
   const handlerAddCar = () => {
-    console.log("차량 등록");
+    document.querySelector("#hidden-frm-submit").click();
+  };
+
+  const handlerClose = () => {
+    dispatch(reset());
+    setShow(false);
   };
 
   return (
@@ -39,6 +48,7 @@ export default function CarAddButton() {
         confirmBtnClass={confirmBtnClass}
         confirmBtnText={confirmBtnText}
         handlerConfirm={handlerAddCar}
+        handlerClose={handlerClose}
         setShow={setShow}
         size="lg"
       />

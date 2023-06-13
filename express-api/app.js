@@ -5,6 +5,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
+var bodyParser = require("body-parser");
 
 var app = express();
 
@@ -13,17 +14,26 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 // 미들웨어 설정
+// app.use(cors()); // CORS 설정 (Access-Control-Allow-Origin: *)
 app.use(
   cors({
     origin: true,
     credentials: true,
   })
 );
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+
+app.use(logger("dev")); // 로그 설정 (req.ip, req.method, req.url, res.statusCode, res.statusMessage, res.body) - 개발용 로그 출력
+app.use(cookieParser()); // 쿠키 설정 (req.cookies) - 쿠키를 파싱해서 req.cookies 객체에 담아줌
+app.use(express.static(path.join(__dirname, "public"))); // 정적 파일 설정 (이미지, css, js 등) - public 폴더를 정적 파일을 제공하는 폴더로 설정
+
+// body-parser 설정
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// 경로 설정
+app.use("/uploads", express.static("uploads")); // 업로드 폴더를 정적 파일을 제공하는 폴더로 설정
 
 // 라우터 설정
 app.use("/", require("./routes/urls/main"));

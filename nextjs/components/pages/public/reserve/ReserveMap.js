@@ -90,7 +90,7 @@ export default function ReserveMap() {
   };
 
   return (
-    <div className="shadow-lg position-relative overflow-hidden rounded-5">
+    <div className="shadow-lg position-relative overflow-hidden rounded-5 map">
       <BiCurrentLocation
         className="gpsIcon position-absolute fs-1 rounded-circle p-1 border border-dark  bg-light text-dark"
         onClick={handleClickGpsIcon}
