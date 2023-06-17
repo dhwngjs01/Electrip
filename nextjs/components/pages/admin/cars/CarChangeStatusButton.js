@@ -30,7 +30,7 @@ export default function CarChangeStatusButton({ car, cars, setCars }) {
             type="button"
             variant="link"
             className="text-danger p-0"
-            onClick={handlerDeleteCar}
+            onClick={() => handlerDeleteCar(carNo)}
           >
             {changeCarState}
           </Button>
@@ -46,7 +46,7 @@ export default function CarChangeStatusButton({ car, cars, setCars }) {
     setShow(true);
   };
 
-  const handlerDeleteCar = () => {
+  const handlerDeleteCar = (carNo) => {
     if (confirm("정말 차량을 삭제하시겠습니까?") === false) return;
 
     axios
