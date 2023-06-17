@@ -74,34 +74,34 @@ Next.js + Express.js Restful API를 이용한 전기 자동차 대여 사이트
 
 ## 🖥 스크린샷
 
-<img alt="메인페이지 상단" src="https://github.com/dhwngjs01/Electrip/assets/38345593/50a39a73-0c9f-41ed-98ce-1b70754870ef">
+# <img alt="메인페이지 상단" src="https://github.com/dhwngjs01/Electrip/assets/38345593/50a39a73-0c9f-41ed-98ce-1b70754870ef">
 
-<img alt="메인페이지 하단" src="https://github.com/dhwngjs01/Electrip/assets/38345593/251ff019-bac3-4fe4-a525-a30a9b05d2ce">
+# <img alt="메인페이지 하단" src="https://github.com/dhwngjs01/Electrip/assets/38345593/251ff019-bac3-4fe4-a525-a30a9b05d2ce">
 
-<img alt="일렉트립 소개" src="https://github.com/dhwngjs01/Electrip/assets/38345593/5b9ea907-fc7c-4e9b-9bd1-647fc8f10ee9">
+# <img alt="일렉트립 소개" src="https://github.com/dhwngjs01/Electrip/assets/38345593/5b9ea907-fc7c-4e9b-9bd1-647fc8f10ee9">
 
-<img alt="바로예약 - 날짜선택" src="https://github.com/dhwngjs01/Electrip/assets/38345593/35c9f97e-2b16-40a7-aaf6-565e84b92882">
+# <img alt="바로예약 - 날짜선택" src="https://github.com/dhwngjs01/Electrip/assets/38345593/35c9f97e-2b16-40a7-aaf6-565e84b92882">
 
-<img alt="바로예약 - 차량선택" src="https://github.com/dhwngjs01/Electrip/assets/38345593/9e4722d4-98a6-424c-9753-59bb1f138f6a">
+# <img alt="바로예약 - 차량선택" src="https://github.com/dhwngjs01/Electrip/assets/38345593/9e4722d4-98a6-424c-9753-59bb1f138f6a">
 
-<img alt="바로예약 - 예약내역" src="https://github.com/dhwngjs01/Electrip/assets/38345593/7412f8a9-5b2f-45b8-8744-dc52f8a3a34d">
+# <img alt="바로예약 - 예약내역" src="https://github.com/dhwngjs01/Electrip/assets/38345593/7412f8a9-5b2f-45b8-8744-dc52f8a3a34d">
 
-<img alt="예약조회" src="https://github.com/dhwngjs01/Electrip/assets/38345593/4ea5a673-1c3d-4482-aac2-e1158dd10464">
+# <img alt="예약조회" src="https://github.com/dhwngjs01/Electrip/assets/38345593/4ea5a673-1c3d-4482-aac2-e1158dd10464">
 
-<img alt="대시보드" src="https://github.com/dhwngjs01/Electrip/assets/38345593/b3f5a2f9-c343-4106-bf62-ff0dcccc5073">
+# <img alt="대시보드" src="https://github.com/dhwngjs01/Electrip/assets/38345593/b3f5a2f9-c343-4106-bf62-ff0dcccc5073">
 
-<img alt="회원관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/1bf9abf4-0e5c-4689-815d-b5398de5c0b3">
+# <img alt="회원관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/1bf9abf4-0e5c-4689-815d-b5398de5c0b3">
 
-<img alt="차량관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/96d5f51d-5f77-4f4e-8984-81e6904ca563">
+# <img alt="차량관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/96d5f51d-5f77-4f4e-8984-81e6904ca563">
 
-<img alt="차량관리 - 차량추가" src="https://github.com/dhwngjs01/Electrip/assets/38345593/b0e0156d-76b7-438f-a99d-6851e8668af1">
+# <img alt="차량관리 - 차량추가" src="https://github.com/dhwngjs01/Electrip/assets/38345593/b0e0156d-76b7-438f-a99d-6851e8668af1">
 
-<img alt="차량관리 - 차량추가 완료" src="https://github.com/dhwngjs01/Electrip/assets/38345593/2ad93818-895c-4755-b049-000fd1f12a6b">
+# <img alt="차량관리 - 차량추가 완료" src="https://github.com/dhwngjs01/Electrip/assets/38345593/2ad93818-895c-4755-b049-000fd1f12a6b">
 
-<img alt="장소관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/a5b6765a-cc30-4c9b-a2b5-f39ac899a2ab">
+# <img alt="장소관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/a5b6765a-cc30-4c9b-a2b5-f39ac899a2ab">
 
-<img alt="장소관리 - 장소추가" src="https://github.com/dhwngjs01/Electrip/assets/38345593/ca6aacc6-5627-485e-a7c3-2aee1371be9b">
+# <img alt="장소관리 - 장소추가" src="https://github.com/dhwngjs01/Electrip/assets/38345593/ca6aacc6-5627-485e-a7c3-2aee1371be9b">
 
-<img alt="대여관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/e96b80f2-dd95-4b1f-bf16-efccde758643">
+# <img alt="대여관리" src="https://github.com/dhwngjs01/Electrip/assets/38345593/e96b80f2-dd95-4b1f-bf16-efccde758643">
 
-<img alt="통계" src="https://github.com/dhwngjs01/Electrip/assets/38345593/d56ef4cc-aec9-4a1c-b54d-65f8c8be77bd">
+# <img alt="통계" src="https://github.com/dhwngjs01/Electrip/assets/38345593/d56ef4cc-aec9-4a1c-b54d-65f8c8be77bd">
