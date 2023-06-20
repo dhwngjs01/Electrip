@@ -4,7 +4,7 @@ Next.js + Express.js Restful API를 이용한 전기 자동차 대여 사이트
 
 ## 📖 프로젝트 소개
 
-그린카, 롯데 렌터카를 참고하여 만든 전기 자동차 대여 사이트입니다.
+<a href="https://www.greencar.co.kr/index" title="그린카로 이동하기" target="_blank">그린카</a>, <a href="https://www.lotterentacar.net/hp/kor/main/index.do" title="롯데렌터카로 이동하기" target="_blank">롯데렌터카</a>를 참고하여 만든 전기 자동차 대여 사이트입니다.
 
 ## ⏰ 개발 기간
 
