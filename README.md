@@ -15,7 +15,7 @@ Next.js + Express.js Restful API를 이용한 전기 자동차 대여 사이트
 - **JavaScript Runtime** : `Node.js 19.8.1`
 - **Frontend** : `Next.js 13.2.4`
 - **Backend** : `Express.js 4.16.1`
-- **IDE** : `Visual Studio Code 1.79.2`
+- **Text Editor** : `Visual Studio Code 1.79.2`
 - **Database** : `PostgreSQL 15.2`
 
 ## 📋 시스템 구성도
