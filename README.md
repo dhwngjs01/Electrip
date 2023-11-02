@@ -22,12 +22,12 @@ Next.js + Express.js Restful API를 이용한 전기 자동차 대여 사이트
 
 |                                             사용자 구성도                                              |                                             관리자 구성도                                              |
 | :----------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/dhwngjs01/Electrip/assets/38345593/b8653f3d-e2b2-4955-9c3f-e49793b03464"> | <img src="https://github.com/dhwngjs01/Electrip/assets/38345593/9faf1e0e-1c0a-4787-87a1-9da5b83591a9"> |
+| <img src="https://github.com/dhwngjs01/Electrip/assets/38345593/4d3897dc-def1-4227-ba0d-0b06459ee647"> | <img src="https://github.com/dhwngjs01/Electrip/assets/38345593/faa44a3b-b73e-4720-8c53-e27eafac8002"> |
 
 ## ⌨ E-R 다이어그램
 
 <p align="center">
-  <img src="https://github.com/dhwngjs01/Electrip/assets/38345593/ff3f84f3-d926-4f77-b1e7-7eeb18beb725" width="80%">
+  <img src="https://github.com/dhwngjs01/Electrip/assets/38345593/f01347c5-16bd-4626-ab03-8db0e77223bd" width="80%">
 </p>
 
 ## 🔍 기능 설명
