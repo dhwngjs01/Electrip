@@ -1,4 +1,5 @@
 .vscode/
+.DS_Store
 
 express-api/node_modules
 express-api/.env
