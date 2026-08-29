@@ -13,6 +13,15 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE EXTENSION IF NOT EXISTS citext;
+
+CREATE TABLE IF NOT EXISTS "auth_rate_limit" (
+	"key" VARCHAR(64) PRIMARY KEY,
+	"window_started_at" TIMESTAMPTZ NOT NULL,
+	"request_count" INTEGER NOT NULL CHECK ("request_count" > 0)
+);
+
 -- 테이블 public.accounts 구조 내보내기
 CREATE TABLE IF NOT EXISTS "accounts" (
 	"id" INTEGER NOT NULL DEFAULT 'nextval(''accounts_id_seq''::regclass)',
@@ -60,6 +69,8 @@ CREATE TABLE IF NOT EXISTS "reserve" (
 	"reserve_real_end_date" TIMESTAMP NULL DEFAULT NULL,
 	"reserve_created_at" TIMESTAMP NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
 	"reserve_updated_at" TIMESTAMP NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+	CHECK ("reserve_end_date" > "reserve_start_date"),
+	CHECK ("reserve_total_price" >= 0),
 	PRIMARY KEY ("reserve_no")
 );
 
@@ -68,7 +79,7 @@ CREATE TABLE IF NOT EXISTS "reserve" (
 -- 테이블 public.users 구조 내보내기
 CREATE TABLE IF NOT EXISTS "users" (
 	"id" INTEGER NOT NULL DEFAULT 'nextval(''users_id_seq''::regclass)',
-	"email" VARCHAR NULL DEFAULT NULL,
+	"email" CITEXT NOT NULL UNIQUE,
 	"password" VARCHAR NULL DEFAULT NULL,
 	"name" VARCHAR NULL DEFAULT NULL,
 	"mobile" VARCHAR NULL DEFAULT NULL,

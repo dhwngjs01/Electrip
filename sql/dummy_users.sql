@@ -126,3 +126,8 @@ insert into users (email, password, name, mobile, zipcode, address, detail_addre
 insert into users (email, password, name, mobile, zipcode, address, detail_address) values ('rsager3h@who.int', 'p5FFr|=}l', 'Robinet Sager', '845-468-9453', '91', '7151 Jackson Drive', 'PO Box 91972');
 insert into users (email, password, name, mobile, zipcode, address, detail_address) values ('lcoverly3i@nsw.gov.au', 'i2\5~(,N>5', 'Laina Coverly', '594-796-8395', '29440', '7692 Commercial Street', 'Room 1466');
 insert into users (email, password, name, mobile, zipcode, address, detail_address) values ('tchadbourne3j@ocn.ne.jp', 'r5ZhU5)oH', 'Timotheus Chadbourne', '654-999-6125', '875', '15578 Heath Avenue', 'Suite 12');
+
+UPDATE users
+SET password = crypt(password, gen_salt('bf', 12))
+WHERE password IS NOT NULL
+  AND password NOT LIKE '$2%';

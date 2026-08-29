@@ -54,6 +54,17 @@ export default function PostgresAdapter(client, options = {}) {
     },
     async updateUser(user) {
       try {
+        const result = await client.query(
+          `UPDATE users
+           SET name = COALESCE($2, name),
+               email = COALESCE($3, email),
+               mobile = COALESCE($4, mobile),
+               updated_at = NOW()
+           WHERE id = $1
+           RETURNING *`,
+          [user.id, user.name ?? null, user.email ?? null, user.mobile ?? null]
+        );
+        return result.rows[0];
       } catch (err) {
         console.log(err);
         return;

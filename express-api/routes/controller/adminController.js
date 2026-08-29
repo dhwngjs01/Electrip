@@ -188,9 +188,7 @@ exports.addCar = async (req, res) => {
     zoneNo,
   } = req.body;
 
-  console.log(req.files);
-
-  if (req.files === undefined) {
+  if (!req.file) {
     res
       .status(400)
       .json({ success: false, message: "차량 이미지를 등록해주세요." });
@@ -203,7 +201,7 @@ exports.addCar = async (req, res) => {
   }
 
   // 차량 이미지
-  const car_image = req.files[0];
+  const car_image = req.file;
 
   // 차량 이미지 파일명
   const car_image_name = car_image.filename;
@@ -245,7 +243,7 @@ exports.editCar = async (req, res) => {
     return;
   }
 
-  if (req.files.length === 0) {
+  if (!req.file) {
     // 이미지 변경 안함
     // 차량 수정
     const result = await db.query(
@@ -265,7 +263,7 @@ exports.editCar = async (req, res) => {
   } else {
     // 이미지 변경
     // 차량 이미지
-    const car_image = req.files[0];
+    const car_image = req.file;
 
     // 차량 이미지 파일명
     const car_image_name = car_image.filename;

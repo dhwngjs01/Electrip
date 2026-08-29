@@ -12,11 +12,23 @@ Next.js + Express.js Restful API를 이용한 전기 자동차 대여 사이트
 
 ## ⚙ 개발 환경
 
-- **JavaScript Runtime** : `Node.js 19.8.1`
-- **Frontend** : `Next.js 13.2.4`
-- **Backend** : `Express.js 4.16.1`
+- **JavaScript Runtime** : `Node.js 20.9.0 이상`
+- **Frontend** : `Next.js 16.3.3`
+- **Backend** : `Express.js 5.2.1`
 - **Text Editor** : `Visual Studio Code 1.79.2`
 - **Database** : `PostgreSQL 15.2`
+
+## 보안 환경 설정
+
+- `JWT_SECRET`: NextAuth 세션 전용으로 32자 이상의 임의 값을 설정합니다.
+- `API_JWT_SECRET`: Next.js와 Express API에 동일한 별도 32자 이상의 임의 값을 설정합니다.
+- `FRONTEND_ORIGINS`: Express API 호출을 허용할 Origin을 쉼표로 구분합니다. 예: `https://electrip.example.com,https://admin.electrip.example.com`
+- `NEXT_PUBLIC_API_URL`: 브라우저에서 접근 가능한 Express API의 기본 URL을 설정합니다.
+- `RESERVATION_TIME_ZONE`: 예약 시간을 해석할 IANA 시간대를 설정합니다. 기본값은 `Asia/Seoul`입니다.
+- `TRUST_PROXY`: Express 앞에 신뢰할 수 있는 프록시가 있을 때만 정확한 홉 수 또는 CIDR을 설정합니다.
+- `RATE_LIMIT_CLIENT_IP_HEADER`: Next.js 앞단의 신뢰 프록시가 덮어쓰는 단일 IP 헤더 이름을 설정합니다. 설정하지 않으면 직접 연결의 소켓 주소를 사용하며, 일반 `X-Forwarded-For`는 신뢰하지 않습니다.
+
+일반 로그인 비밀번호는 bcrypt 해시만 허용합니다. 배포 전에 `sql/20230613.sql`의 `citext`, 고유 이메일, 예약 제약 및 `auth_rate_limit` 스키마를 반영하고, 기존 이메일을 소문자로 정규화·중복 제거한 뒤 평문 비밀번호 계정의 비밀번호를 재설정해야 합니다.
 
 ## 📋 시스템 구성도
 

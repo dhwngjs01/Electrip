@@ -1,4 +1,30 @@
 const db = require("../../util/db");
+const reservationTimeZone =
+  process.env.RESERVATION_TIME_ZONE || "Asia/Seoul";
+
+const isValidLocalDateTime = (value) => {
+  if (typeof value !== "string") {
+    return false;
+  }
+
+  const match =
+    /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/.exec(value);
+
+  if (!match) {
+    return false;
+  }
+
+  const [, year, month, day, hour, minute] = match.map(Number);
+  const parsed = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
+  return (
+    parsed.getUTCFullYear() === year &&
+    parsed.getUTCMonth() === month - 1 &&
+    parsed.getUTCDate() === day &&
+    parsed.getUTCHours() === hour &&
+    parsed.getUTCMinutes() === minute
+  );
+};
 
 exports.getZoneList = async (req, res) => {
   // 모든 장소 목록 가져오기
@@ -63,23 +89,69 @@ exports.getCarListFromZone = async (req, res) => {
 };
 
 exports.reserve = async (req, res) => {
-  let user_no = req.body.user_no;
-  let car_no = req.body.car_no;
-  let reserve_total_price = req.body.reserve_total_price;
-  let reserve_start_date = req.body.reserve_start_date;
-  let reserve_end_date = req.body.reserve_end_date;
+  const userNo = req.tokenInfo.userNo;
+  const { car_no: carNo, reserve_start_date: startDate, reserve_end_date: endDate } =
+    req.body;
+  const parsedCarNo = Number(carNo);
 
-  // 예약하기
-  const result = await db.query(
-    `INSERT INTO reserve
-    (user_no, car_no, reserve_total_price, reserve_start_date, reserve_end_date)
-    VALUES ($1, $2, $3, $4, $5)`,
-    [user_no, car_no, reserve_total_price, reserve_start_date, reserve_end_date]
-  );
+  if (
+    !Number.isSafeInteger(parsedCarNo) ||
+    parsedCarNo <= 0 ||
+    !isValidLocalDateTime(startDate) ||
+    !isValidLocalDateTime(endDate) ||
+    endDate <= startDate
+  ) {
+    return res.status(400).json({ message: "예약 정보를 확인해 주세요." });
+  }
 
-  if (result.rowCount == 1) {
-    res.status(200).json({ message: "예약이 완료되었습니다." });
-  } else {
-    res.status(500).json({ message: "예약에 실패했습니다." });
+  const client = await db.connect();
+
+  try {
+    await client.query("BEGIN");
+    await client.query("SELECT pg_advisory_xact_lock($1)", [parsedCarNo]);
+
+    const result = await client.query(
+      `INSERT INTO reserve
+        (user_no, car_no, reserve_total_price, reserve_start_date, reserve_end_date)
+      SELECT
+        $1,
+        car.car_no,
+        CEIL(
+          (car.car_price / 1440.0)
+          * (EXTRACT(EPOCH FROM ($4::timestamp - $3::timestamp)) / 60)
+          / 100
+        ) * 100,
+        $3::timestamp,
+        $4::timestamp
+      FROM car
+      WHERE car.car_no = $2
+        AND car.car_is_active = true
+        AND $3::timestamp >= NOW() AT TIME ZONE $5
+        AND $4::timestamp > $3::timestamp
+        AND NOT EXISTS (
+          SELECT 1
+          FROM reserve
+          WHERE reserve.car_no = $2
+            AND reserve.reserve_status = '예약중'
+            AND reserve.reserve_start_date < $4::timestamp
+            AND reserve.reserve_end_date > $3::timestamp
+        )`,
+      [userNo, parsedCarNo, startDate, endDate, reservationTimeZone]
+    );
+
+    await client.query("COMMIT");
+
+    if (result.rowCount === 1) {
+      return res.status(200).json({ message: "예약이 완료되었습니다." });
+    }
+
+    return res
+      .status(409)
+      .json({ message: "예약할 수 없는 차량 또는 시간대입니다." });
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
   }
 };

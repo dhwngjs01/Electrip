@@ -5,10 +5,10 @@ import { Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import ReactDatePicker from "react-datepicker";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import dayjs from "dayjs";
-import { ko } from "date-fns/esm/locale";
+import { ko } from "date-fns/locale";
 import {
   setEndDate,
   setReserveEndDate,
@@ -22,106 +22,60 @@ export default function ReserveDate() {
   const reserve = useSelector((state) => state.reserveReducer);
   const dispatch = useDispatch();
 
-  const [startHourList, setStartHourList] = useState([]);
-  const [endHourList, setEndHourList] = useState([]);
-
   const [sDate, setSDate] = useState();
   const [sHour, setSHour] = useState();
   const [sMinute, setSMinute] = useState("00");
   const [eDate, setEDate] = useState();
   const [eHour, setEHour] = useState();
   const [eMinute, setEMinute] = useState("00");
+  const [now] = useState(() => new Date());
 
-  let reservePeriod = "";
+  const getHourList = (firstHour) =>
+    Array.from({ length: Math.max(24 - firstHour, 0) }, (_, index) => firstHour + index);
+  const startHourList = sDate
+    ? getHourList(
+        dayjs(sDate).isSame(now, "day") ? now.getHours() + 1 : 0
+      )
+    : [];
+  const endHourList = eDate
+    ? getHourList(
+        dayjs(eDate).isSame(now, "day")
+          ? now.getHours() + 2
+          : dayjs(eDate).isSame(sDate, "day") && sHour
+            ? Number(sHour) + 1
+            : 0
+      )
+    : [];
+  const reservePeriod = reserve.reservePeriod || "";
 
-  useEffect(() => {
-    let now = new Date();
-    let hourList = [];
-
-    if (sDate) {
-      dispatch(setStartDate(dayjs(sDate).format("YYYY-MM-DD")));
-
-      if (
-        dayjs(sDate).format("YYYY-MM-DD") == dayjs(now).format("YYYY-MM-DD")
-      ) {
-        hourList = [];
-        for (let i = now.getHours() + 1; i < 24; i++) {
-          hourList.push(i);
-        }
-      } else {
-        hourList = [];
-        for (let i = 0; i < 24; i++) {
-          hourList.push(i);
-        }
-      }
-      setStartHourList([...hourList]);
+  const updateReservation = ({
+    startDate = sDate,
+    startHour = sHour,
+    startMinute = sMinute,
+    endDate = eDate,
+    endHour = eHour,
+    endMinute = eMinute,
+  }) => {
+    if (!startDate || !startHour || !startMinute || !endDate || !endHour || !endMinute) {
+      return;
     }
 
-    if (eDate) {
-      dispatch(setEndDate(dayjs(eDate).format("YYYY-MM-DD")));
-
-      if (
-        dayjs(eDate).format("YYYY-MM-DD") == dayjs(now).format("YYYY-MM-DD")
-      ) {
-        hourList = [];
-        for (let i = now.getHours() + 2; i < 24; i++) {
-          hourList.push(i);
-        }
-      } else if (
-        dayjs(eDate).format("YYYY-MM-DD") == dayjs(sDate).format("YYYY-MM-DD")
-      ) {
-        hourList = [];
-        for (let i = parseInt(sHour) + 1; i < 24; i++) {
-          hourList.push(i);
-        }
-      } else {
-        hourList = [];
-        for (let i = 0; i < 24; i++) {
-          hourList.push(i);
-        }
-      }
-      setEndHourList([...hourList]);
-    }
-
-    if (sDate && sHour && sMinute && eDate && eHour && eMinute) {
-      dispatch(
-        setReserveStartDate(
-          dayjs(sDate).format("YYYY-MM-DD") + " " + sHour + ":" + sMinute
-        )
-      );
-      dispatch(
-        setReserveEndDate(
-          dayjs(eDate).format("YYYY-MM-DD") + " " + eHour + ":" + eMinute
-        )
-      );
-
-      let onlyMinute = dayjs(
-        dayjs(eDate).format("YYYY-MM-DD") + " " + eHour + ":" + eMinute
-      ).diff(
-        dayjs(sDate).format("YYYY-MM-DD") + " " + sHour + ":" + sMinute,
-        "minute"
-      );
-
-      dispatch(setReserveMinute(Math.abs(parseInt(onlyMinute))));
-    }
-  }, [sDate, sHour, sMinute, eDate, eHour, eMinute]);
-
-  const diffDate = (type) => {
-    return dayjs(reserve.reserveEndDate).diff(
-      dayjs(reserve.reserveStartDate).format("YYYY-MM-DD HH:mm"),
-      type
+    const reserveStartDate = `${dayjs(startDate).format("YYYY-MM-DD")} ${startHour}:${startMinute}`;
+    const reserveEndDate = `${dayjs(endDate).format("YYYY-MM-DD")} ${endHour}:${endMinute}`;
+    const reserveMinute = Math.abs(
+      dayjs(reserveEndDate).diff(dayjs(reserveStartDate), "minute")
     );
+    const reservePeriodParts = [
+      reserveMinute >= 1440 && `${Math.floor(reserveMinute / 1440)}일`,
+      reserveMinute % 1440 >= 60 && `${Math.floor((reserveMinute % 1440) / 60)}시간`,
+      reserveMinute % 60 > 0 && `${reserveMinute % 60}분`,
+    ].filter(Boolean);
+
+    dispatch(setReserveStartDate(reserveStartDate));
+    dispatch(setReserveEndDate(reserveEndDate));
+    dispatch(setReserveMinute(reserveMinute));
+    dispatch(setReservePeriod(reservePeriodParts.join(" ")));
   };
-
-  if (reserve.reserveStartDate && reserve.reserveEndDate) {
-    reservePeriod += diffDate("day") > 0 ? diffDate("day") + "일 " : "";
-    reservePeriod +=
-      diffDate("hour") % 24 > 0 ? (diffDate("hour") % 24) + "시간 " : "";
-    reservePeriod +=
-      diffDate("minute") % 60 > 0 ? (diffDate("minute") % 60) + "분" : "";
-
-    dispatch(setReservePeriod(reservePeriod));
-  }
 
   const handlerChangeDate = (dates) => {
     const [start, end] = dates;
@@ -132,6 +86,13 @@ export default function ReserveDate() {
     setEDate(end);
     setEHour();
     setEMinute("00");
+
+    dispatch(setStartDate(start ? dayjs(start).format("YYYY-MM-DD") : null));
+    dispatch(setEndDate(end ? dayjs(end).format("YYYY-MM-DD") : null));
+    dispatch(setReserveStartDate(null));
+    dispatch(setReserveEndDate(null));
+    dispatch(setReserveMinute(null));
+    dispatch(setReservePeriod(null));
   };
 
   const handlerSelectStartHour = (e) => {
@@ -139,6 +100,7 @@ export default function ReserveDate() {
     const hour = selected.value;
 
     setSHour(hour);
+    updateReservation({ startHour: hour });
   };
 
   const handlerSelectStartMinute = (e) => {
@@ -146,6 +108,7 @@ export default function ReserveDate() {
     const minute = selected.value;
 
     setSMinute(minute);
+    updateReservation({ startMinute: minute });
   };
 
   const handlerSelectEndHour = (e) => {
@@ -153,6 +116,7 @@ export default function ReserveDate() {
     const hour = selected.value;
 
     setEHour(hour);
+    updateReservation({ endHour: hour });
   };
 
   const handlerSelectEndMinute = (e) => {
@@ -160,6 +124,7 @@ export default function ReserveDate() {
     const minute = selected.value;
 
     setEMinute(minute);
+    updateReservation({ endMinute: minute });
   };
 
   return (
@@ -169,7 +134,7 @@ export default function ReserveDate() {
         selectsRange
         startDate={sDate}
         endDate={eDate}
-        minDate={new Date()}
+        minDate={now}
         dateFormat="yyyy-MM-dd"
         dateFormatCalendar="yyyy년 MM월"
         monthsShown={2}
@@ -279,7 +244,7 @@ export default function ReserveDate() {
         </Col>
         <Col md={12}>
           <p className="text-center bg-light py-3 mt-3 fw-bold fs-4">
-            {reservePeriod != "" ? (
+            {reservePeriod ? (
               <>
                 총 <span className="text-danger">{reservePeriod}</span> 사용
               </>

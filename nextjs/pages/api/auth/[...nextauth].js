@@ -2,8 +2,17 @@ import NextAuth from "next-auth";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
 import CredentialsProvider from "next-auth/providers/credentials";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import PostgresAdapter from "@/util/adapter";
 import pool from "@/util/database";
+import {
+  consumeRateLimit,
+  getClientAddress,
+} from "@/util/rateLimit";
+
+const INVALID_PASSWORD_HASH =
+  "$2b$12$iVZfmI7bgTpo9wELjIHSxOT.xuQMlN71uxa4fsduRTasH1ou5hdxi";
 
 export const authOptions = {
   providers: [
@@ -40,18 +49,52 @@ export const authOptions = {
       // 아이디,비번 맞으면 return 결과, 틀리면 return null 해야함
       async authorize(credentials, req) {
         try {
-          let sql = `select * from users where email = $1 and password = $2 and is_active = true`;
-          let user = await pool.query(sql, [
-            credentials.user_id,
-            credentials.user_pw,
-          ]);
-
-          // 아이디와 비밀번호가 일치하지 않으면 null 리턴
-          if (!user.rows[0]) {
+          if (
+            typeof credentials?.user_id !== "string" ||
+            typeof credentials?.user_pw !== "string" ||
+            bcrypt.truncates(credentials.user_pw)
+          ) {
             return null;
           }
 
-          return user.rows[0];
+          const normalizedEmail = credentials.user_id.trim().toLowerCase();
+          const clientAddress = getClientAddress(req);
+          if (!clientAddress) {
+            return null;
+          }
+
+          const [accountAllowed, clientAllowed] = await Promise.all([
+            consumeRateLimit(pool, {
+              namespace: "login-account",
+              identity: normalizedEmail,
+              limit: 20,
+              windowSeconds: 15 * 60,
+            }),
+            consumeRateLimit(pool, {
+              namespace: "login-client",
+              identity: clientAddress,
+              limit: 100,
+              windowSeconds: 15 * 60,
+            }),
+          ]);
+
+          if (!accountAllowed || !clientAllowed) {
+            return null;
+          }
+
+          const sql = `SELECT * FROM users WHERE email = $1 AND is_active = true`;
+          const user = await pool.query(sql, [normalizedEmail]);
+          const account = user.rows[0];
+          const passwordMatches = await bcrypt.compare(
+            credentials.user_pw,
+            account?.password || INVALID_PASSWORD_HASH
+          );
+
+          if (!account || !passwordMatches) {
+            return null;
+          }
+
+          return account;
         } catch (error) {
           console.log(error);
           return null;
@@ -80,11 +123,62 @@ export const authOptions = {
         token.user.user_is_staff = user.is_staff;
       }
 
+      if (token.user) {
+        const currentUser = await pool.query(
+          `SELECT id, name, email, mobile, is_staff
+           FROM users
+           WHERE id = $1 AND is_active = true`,
+          [token.user.user_no]
+        );
+
+        if (!currentUser.rows[0]) {
+          token.user = null;
+          token.apiAccessToken = null;
+          return token;
+        }
+
+        token.user = {
+          user_no: currentUser.rows[0].id,
+          user_name: currentUser.rows[0].name,
+          user_email: currentUser.rows[0].email,
+          user_phone: currentUser.rows[0].mobile,
+          user_is_staff: currentUser.rows[0].is_staff,
+        };
+
+        if (
+          !process.env.API_JWT_SECRET ||
+          process.env.API_JWT_SECRET.length < 32
+        ) {
+          throw new Error(
+            "API_JWT_SECRET은 32자 이상의 값으로 설정해야 합니다."
+          );
+        }
+
+        token.apiAccessToken = jwt.sign(
+          {
+            userNo: token.user.user_no,
+          },
+          process.env.API_JWT_SECRET,
+          {
+            algorithm: "HS256",
+            expiresIn: "1h",
+            subject: String(token.user.user_no),
+            issuer: "electrip-nextjs",
+            audience: "electrip-api",
+          }
+        );
+      }
+
       return token;
     },
     // 5. 유저 세션이 조회될 때 마다 실행되는 코드
     session: async ({ session, token }) => {
+      if (!token.user) {
+        return null;
+      }
+
       session.user = token.user;
+      session.apiAccessToken = token.apiAccessToken;
       return session;
     },
     redirect: async ({ url, baseUrl }) => {

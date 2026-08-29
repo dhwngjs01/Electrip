@@ -2,10 +2,10 @@
 
 import "./globals.scss";
 import "./page.scss";
-import "swiper/swiper.min.css";
+import "swiper/css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Keyboard, Mousewheel } from "swiper";
+import { Keyboard, Mousewheel } from "swiper/modules";
 import MainVisual from "@/components/pages/main/MainVisual";
 import MainIntro from "@/components/pages/main/MainIntro";
 

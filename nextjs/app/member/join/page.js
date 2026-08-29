@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import DaumPostcode from "react-daum-postcode";
 import { FaLock } from "react-icons/fa";
 import axios from "axios";
 
 const Join = () => {
+  const router = useRouter();
   const [phone, setPhone] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
@@ -87,7 +89,7 @@ const Join = () => {
         // 회원가입 성공
         if (res.data.success) {
           alert("회원가입이 완료되었습니다.");
-          location.href = "/member/login";
+          router.push("/member/login");
         } else {
           // 필수 입력사항이 비어있으면
           if (res.data.empty_value_required_list) {
@@ -109,7 +111,20 @@ const Join = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        const data = err.response?.data;
+
+        if (data?.empty_value_required_list) {
+          document.querySelectorAll(".form-text").forEach((text) => {
+            text.classList.add("d-none");
+          });
+          data.empty_value_required_list.forEach((emptyInput) => {
+            document
+              .getElementById(emptyInput)
+              ?.previousSibling?.classList.remove("d-none");
+          });
+        }
+
+        alert(data?.message || "회원가입 요청을 처리하지 못했습니다.");
       });
   };
 
