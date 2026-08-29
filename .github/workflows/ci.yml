@@ -1,0 +1,48 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  express-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: express-api/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: express-api
+      - run: npm test
+        working-directory: express-api
+      - run: npm audit --audit-level=high
+        working-directory: express-api
+
+  nextjs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: nextjs/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: nextjs
+      - run: npm run lint
+        working-directory: nextjs
+      - run: npm run build
+        working-directory: nextjs
+      - run: npm audit --audit-level=high
+        working-directory: nextjs
