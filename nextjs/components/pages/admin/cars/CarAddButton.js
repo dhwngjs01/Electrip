@@ -36,6 +36,7 @@ export default function CarAddButton() {
   return (
     <>
       <button
+        type="button"
         className="btn btn-primary float-end"
         onClick={handlerOpenCarAddModal}
       >

@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import Image from "next/image";
 import ZoneList from "./ZoneList";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,13 +20,15 @@ import {
   setCarSeat,
 } from "@/redux/features/carSlice";
 
-export default function CarEditForm(props) {
+const imageLoader = ({ src }) => src;
+
+export default function CarEditForm({ carNo }) {
   const car = useSelector((state) => state.carReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/cars/${props.carNo}`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/cars/${carNo}`)
       .then((res) => {
         dispatch(setCarImage(res.data.car_image));
         dispatch(
@@ -43,7 +46,7 @@ export default function CarEditForm(props) {
         dispatch(setCarNo(res.data.car_no));
         dispatch(setCarSeat(res.data.car_seat));
       });
-  }, [props.carNo]);
+  }, [carNo, dispatch]);
 
   const handlerSubmitForm = (e) => {
     e.preventDefault();
@@ -70,7 +73,7 @@ export default function CarEditForm(props) {
       });
   };
 
-  const handlerOpenInputFile = (e) => {
+  const handlerOpenInputFile = () => {
     document.querySelector("#car_image").click();
   };
 
@@ -121,9 +124,12 @@ export default function CarEditForm(props) {
                 <p className="text-muted border-bottom mb-3 pb-2">
                   차량 이미지
                 </p>
-                <img
+                <Image
+                  loader={imageLoader}
                   src={car.imgSrc}
                   alt={car.imgSrc}
+                  width={500}
+                  height={130}
                   className="img-fluid px-3 my-4"
                   style={{ maxHeight: 130 }}
                 />

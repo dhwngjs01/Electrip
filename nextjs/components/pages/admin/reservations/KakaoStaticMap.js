@@ -1,6 +1,6 @@
 "use client";
 
-import { MapMarker, StaticMap } from "react-kakao-maps-sdk";
+import { StaticMap } from "react-kakao-maps-sdk";
 
 export default function KakaoStaticMap({ height, lat, lng }) {
   return (

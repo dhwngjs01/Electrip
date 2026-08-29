@@ -9,14 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 import "dayjs/locale/ko";
 import { useRouter } from "next/navigation";
 
+dayjs.locale("ko");
+
 export default function ReserveDetail() {
-  dayjs.locale("ko");
   const session = useSession();
   const reserve = useSelector((state) => state.reserveReducer);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const handlerReserveConfirm = (e) => {
+  const handlerReserveConfirm = () => {
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/api/reserve`, {
         car_no: reserve.carNo,
@@ -28,7 +29,7 @@ export default function ReserveDetail() {
       .then((res) => {
         if (res.data.message) {
           alert(res.data.message);
-          window.location.href = "/member/myReserve";
+          router.push("/member/myReserve");
         }
       })
       .catch((err) => {
@@ -38,7 +39,7 @@ export default function ReserveDetail() {
       });
   };
 
-  const handlerCancel = (e) => {
+  const handlerCancel = () => {
     if (confirm("지금까지 저장된 정보가 모두 삭제됩니다. 취소하시겠습니까?")) {
       dispatch(reset());
     }
@@ -115,6 +116,7 @@ export default function ReserveDetail() {
             <Image
               src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/images/${reserve.carImage}`}
               className="w-100 d-block"
+              alt={reserve.carName}
             />
           </Card.Body>
           <Card.Footer className="d-flex">

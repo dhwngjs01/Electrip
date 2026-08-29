@@ -1,10 +1,12 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { FaLock, FaSmileBeam } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { FaLock } from "react-icons/fa";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 
 const Login = () => {
+  const router = useRouter();
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,7 +21,7 @@ const Login = () => {
     if (res.error) {
       alert("아이디와 비밀번호가 일치하지 않습니다.");
     } else {
-      window.location.href = "/";
+      router.push("/");
     }
   };
 
@@ -55,7 +57,8 @@ const Login = () => {
             로그인
           </Button>
           <Button
-            href="/member/join"
+            type="button"
+            onClick={() => router.push("/member/join")}
             className="w-100 text-black border-0"
             variant="warning"
           >
@@ -65,12 +68,12 @@ const Login = () => {
         <Row className="mt-4">
           <Col>
             <Button variant="link" onClick={() => signIn("naver")}>
-              <Image src="/images/naver_icon.png" />
+              <Image src="/images/naver_icon.png" alt="네이버 로그인" />
             </Button>
           </Col>
           <Col>
             <Button variant="link" onClick={() => signIn("kakao")}>
-              <Image src="/images/kakao_icon.png" />
+              <Image src="/images/kakao_icon.png" alt="카카오 로그인" />
             </Button>
           </Col>
         </Row>

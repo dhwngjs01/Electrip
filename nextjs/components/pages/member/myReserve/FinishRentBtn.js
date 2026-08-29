@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { Button } from "react-bootstrap";
 
 export default function FinishRentBtn({ reserve_no }) {

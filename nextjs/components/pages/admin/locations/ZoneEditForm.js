@@ -15,18 +15,16 @@ import {
 } from "@/redux/features/zoneSlice";
 import axios from "axios";
 
-export default function ZoneEditForm(props) {
+export default function ZoneEditForm({ zoneNo }) {
   const zone = useSelector((state) => state.zoneReducer);
   const dispatch = useDispatch();
-
-  const [isPostcodeClicked, setIsPostcodeClicked] = useState(true);
 
   // 카카오 주소 검색 API
   const [openPostcode, setOpenPostcode] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/zones/${props.zoneNo}`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/zones/${zoneNo}`)
       .then((res) => {
         dispatch(setZipCode(res.data.zone_zipcode));
         dispatch(setAddress(res.data.zone_address));
@@ -34,19 +32,17 @@ export default function ZoneEditForm(props) {
         dispatch(setLat(res.data.zone_lat));
         dispatch(setLng(res.data.zone_lng));
       });
-  }, [props.zoneNo]);
+  }, [zoneNo, dispatch]);
 
   const handlePostcode = {
     // 버튼 클릭 이벤트
     clickButton: () => {
       setOpenPostcode((current) => !current);
-      setIsPostcodeClicked((current) => !current);
     },
 
     // 주소 선택 이벤트
     selectAddress: (data) => {
       setOpenPostcode(false);
-      setIsPostcodeClicked(false);
 
       dispatch(setZipCode(data.zonecode));
       dispatch(setAddress(data.address));
@@ -68,7 +64,7 @@ export default function ZoneEditForm(props) {
 
     axios
       .put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/zones/${props.zoneNo}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/zones/${zoneNo}`,
         data
       )
       .then((res) => {

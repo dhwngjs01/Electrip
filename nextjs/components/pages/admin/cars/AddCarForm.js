@@ -10,15 +10,15 @@ import {
   setImgSrc,
 } from "@/redux/features/carSlice";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+const imageLoader = ({ src }) => src;
 
 export default function AddCarForm() {
   const car = useSelector((state) => state.carReducer);
   const dispatch = useDispatch();
 
-  const router = useRouter();
-
-  const handlerOpenInputFile = (e) => {
+  const handlerOpenInputFile = () => {
     document.querySelector("#car_image").click();
   };
 
@@ -116,9 +116,12 @@ export default function AddCarForm() {
                 onChange={handlerChangeCarImage}
               />
               <p className="text-muted border-bottom mb-3 pb-2">차량 이미지</p>
-              <img
+              <Image
+                loader={imageLoader}
                 src={car.imgSrc}
                 alt={car.imgSrc}
+                width={500}
+                height={130}
                 className="img-fluid px-3 my-4"
                 style={{ maxHeight: 130 }}
               />

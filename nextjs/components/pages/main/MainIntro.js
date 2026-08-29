@@ -11,6 +11,7 @@ export default function MainIntro() {
       <div className="position-relative" style={{ height: "60%" }}>
         <Image
           src="./images/main_section_bg.jpeg"
+          alt="일렉트립 전기차 대여 서비스 배경"
           className="position-absolute left-0 top-0 w-100 h-100"
           style={{
             zIndex: -1,
@@ -41,7 +42,11 @@ export default function MainIntro() {
               </div>
             </Col>
             <Col md={4}>
-              <Image src="./images/car.png" className="w-100 d-block" />
+              <Image
+                src="./images/car.png"
+                alt="일렉트립 전기차"
+                className="w-100 d-block"
+              />
             </Col>
           </Row>
         </Container>
@@ -57,6 +62,7 @@ export default function MainIntro() {
             <Col md={5}>
               <Image
                 src="./images/main_section_map.png"
+                alt="일렉존 위치 지도"
                 className="w-100 d-block px-5"
               />
             </Col>

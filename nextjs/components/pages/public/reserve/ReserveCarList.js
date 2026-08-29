@@ -22,7 +22,7 @@ export default function ReserveCarList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (reserve.zoneNo == null) return;
+    if (!reserve.showCarLayout || reserve.zoneNo == null) return;
 
     axios
       .get(
@@ -37,10 +37,16 @@ export default function ReserveCarList() {
       .then((res) => {
         dispatch(setCarList(res.data));
       });
-  }, [reserve.showCarLayout]);
+  }, [
+    dispatch,
+    reserve.reserveEndDate,
+    reserve.reserveStartDate,
+    reserve.showCarLayout,
+    reserve.zoneNo,
+  ]);
 
   const handleClickCar = (e) => {
-    self = e.currentTarget;
+    const self = e.currentTarget;
     const carNo = self.dataset.carNo;
     const carName = self.dataset.carName;
     const carPrice = self.dataset.carPrice;

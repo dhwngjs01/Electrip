@@ -13,6 +13,7 @@ import {
   showReserveLayout,
 } from "@/redux/features/reserveSlice";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function KakaoMap() {
   const reserve = useSelector((state) => state.reserveReducer);
@@ -35,12 +36,12 @@ export default function KakaoMap() {
     const address = selected.dataset.address;
     dispatch(setZoneAddress(address));
 
-    const clickedIndex = selected.getAttribute("index");
-    dispatch(setZoneNo(parseInt(clickedIndex)));
+    const clickedZoneNo = selected.dataset.zoneNo;
+    dispatch(setZoneNo(Number(clickedZoneNo)));
 
     document.querySelectorAll(".custom-overlay").forEach((overlay) => {
-      const overlayZoneNo = overlay.dataset.zone_no;
-      if (overlayZoneNo != clickedIndex) {
+      const overlayZoneNo = overlay.dataset.zoneNo;
+      if (overlayZoneNo !== clickedZoneNo) {
         overlay.classList.remove("custom-overlay-active");
       } else {
         if (overlay.classList.toggle("custom-overlay-active")) {
@@ -73,12 +74,14 @@ export default function KakaoMap() {
           },
         }}
       ></MapMarker>
-      {zoneList.map((zone, index) => (
-        <div
+      {zoneList.map((zone) => (
+        <button
+          type="button"
+          style={{ display: "contents" }}
           key={zone.zone_no}
           data-address={zone.zone_address}
           onClick={handleSelectZone}
-          index={zone.zone_no}
+          data-zone-no={zone.zone_no}
         >
           <MapMarker
             position={{ lat: zone.zone_lat, lng: zone.zone_lng }}
@@ -98,17 +101,20 @@ export default function KakaoMap() {
             yAnchor={1}
             clickable={true}
           >
-            <div className="custom-overlay" data-zone_no={zone.zone_no}>
+            <div className="custom-overlay" data-zone-no={zone.zone_no}>
               <div className="custom-overlay-content">
                 <span className="reserve-able-title">예약 가능</span>
-                <img
+                <Image
                   className="reserve-arrow"
                   src="/images/reserve_arrow.png"
+                  alt=""
+                  width={8}
+                  height={13}
                 />
               </div>
             </div>
           </CustomOverlayMap>
-        </div>
+        </button>
       ))}
     </Map>
   );

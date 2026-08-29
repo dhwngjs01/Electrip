@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ReserveInfoModal from "./ReserveInfoModal";
 import dayjs from "dayjs";
+import Image from "next/image";
 import { Table } from "react-bootstrap";
 
 export default function ReserveListTable() {
@@ -66,10 +67,13 @@ export default function ReserveListTable() {
             >
               <td>{reserve.reserve_no}</td>
               <td>
-                <img
+                <Image
                   src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/images/${reserve.car_image}`}
                   alt={reserve.car_name}
-                  height="50"
+                  width={80}
+                  height={50}
+                  unoptimized
+                  style={{ objectFit: "contain" }}
                 />
               </td>
               <td>{reserve.car_name}</td>

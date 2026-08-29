@@ -4,7 +4,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-export default function CarStatusBadge({ car, cars }) {
+export default function CarStatusBadge({ car }) {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function CarStatusBadge({ car, cars }) {
         `${process.env.NEXT_PUBLIC_API_URL}/api/admin/cars/reservations/${car.car_no}`
       )
       .then((res) => {
-        res.data.map((reserve, key) => {
+        res.data.forEach((reserve) => {
           const start = dayjs(reserve.reserve_start_date);
           const end = dayjs(reserve.reserve_end_date);
 
@@ -30,13 +30,13 @@ export default function CarStatusBadge({ car, cars }) {
           }
         });
 
-        if (res.data.length == 0 && car.car_is_active === false) {
+        if (res.data.length === 0 && car.car_is_active === false) {
           setStatus("중지");
-        } else if (res.data.length == 0 && car.car_is_active === true) {
+        } else if (res.data.length === 0 && car.car_is_active === true) {
           setStatus("대기");
         }
       });
-  }, [cars]);
+  }, [car.car_no, car.car_is_active]);
 
   return status === "운행" ? (
     <span className="badge bg-success">운행</span>

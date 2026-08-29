@@ -21,7 +21,7 @@ export default function Reserve() {
 
   useEffect(() => {
     dispatch(reset());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container className="py-5">

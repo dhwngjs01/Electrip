@@ -4,6 +4,7 @@ import "./globals.scss";
 import { NextAuthProvider } from "@/components/common/Provider";
 import Navigation from "@/components/common/Navigation";
 import { Providers } from "@/redux/provider";
+import Script from "next/script";
 
 export default function RootLayout({ children }) {
   return (
@@ -20,8 +21,7 @@ export default function RootLayout({ children }) {
               <Navigation />
               {children}
             </div>
-            <script
-              type="text/javascript"
+            <Script
               src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY}&libraries=services,clusterer,drawing`}
               strategy="beforeInteractive"
             />

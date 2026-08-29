@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Intro() {
   return (
@@ -91,10 +92,13 @@ export default function Intro() {
                   position: "relative",
                 }}
               >
-                <img
+                <Image
                   src="/images/cars/g80ev.png"
                   alt="제네시스 G80 EV"
-                  className="card-img-top position-absolute top-50 start-50 translate-middle px-3"
+                  className="card-img-top px-3"
+                  fill
+                  sizes="(min-width: 992px) 33vw, 100vw"
+                  style={{ objectFit: "contain" }}
                 />
               </div>
 
@@ -128,10 +132,13 @@ export default function Intro() {
                   position: "relative",
                 }}
               >
-                <img
+                <Image
                   src="/images/cars/taycan.png"
                   alt="포르쉐 타이칸"
-                  className="card-img-top position-absolute top-50 start-50 translate-middle px-3"
+                  className="card-img-top px-3"
+                  fill
+                  sizes="(min-width: 992px) 33vw, 100vw"
+                  style={{ objectFit: "contain" }}
                 />
               </div>
               <div className="card-body">
@@ -164,10 +171,13 @@ export default function Intro() {
                   position: "relative",
                 }}
               >
-                <img
+                <Image
                   src="/images/cars/models.png"
                   alt="테슬라 모델S"
-                  className="card-img-top position-absolute top-50 start-50 translate-middle px-3"
+                  className="card-img-top px-3"
+                  fill
+                  sizes="(min-width: 992px) 33vw, 100vw"
+                  style={{ objectFit: "contain" }}
                 />
               </div>
 

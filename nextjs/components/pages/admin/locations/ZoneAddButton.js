@@ -1,7 +1,7 @@
 "use client";
 
 import ConfirmModal from "@/components/common/ConfirmModal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import AddZoneForm from "./AddZoneForm";

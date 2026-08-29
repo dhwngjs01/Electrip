@@ -4,12 +4,11 @@ import { setReserveList } from "@/redux/features/myReserveSlice";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function CancelBtn({ reserve_no }) {
   const session = useSession();
 
-  const myReserve = useSelector((state) => state.myReserveReducer);
   const dispatch = useDispatch();
 
   const handlerReserveCancel = async () => {

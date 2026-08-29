@@ -5,14 +5,12 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Loading() {
-  let session = useSession();
-  let router = useRouter();
+  const session = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (session.status === "authenticated") {
       router.push("/");
-
-      console.log(session.status);
     }
-  }, [session.status]);
+  }, [router, session.status]);
 }

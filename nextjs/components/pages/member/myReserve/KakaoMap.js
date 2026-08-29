@@ -1,5 +1,6 @@
 import axios from "axios";
 import "./KakaoMap.scss";
+import Image from "next/image";
 
 import { Map, MapMarker, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,8 +37,8 @@ export default function KakaoMap() {
     const address = selected.dataset.address;
     dispatch(setZoneAddress(address));
 
-    const clickedIndex = selected.getAttribute("index");
-    dispatch(setZoneNo(parseInt(clickedIndex)));
+    const clickedIndex = selected.dataset.zoneNo;
+    dispatch(setZoneNo(Number(clickedIndex)));
 
     document.querySelectorAll(".custom-overlay").forEach((overlay) => {
       const overlayZoneNo = overlay.dataset.zone_no;
@@ -75,11 +76,13 @@ export default function KakaoMap() {
         }}
       ></MapMarker>
       {zoneList.map((zone, index) => (
-        <div
+        <button
+          type="button"
+          style={{ display: "contents" }}
           key={zone.zone_no}
           data-address={zone.zone_address}
           onClick={handleSelectZone}
-          index={zone.zone_no}
+          data-zone-no={zone.zone_no}
         >
           <MapMarker
             position={{ lat: zone.zone_lat, lng: zone.zone_lng }}
@@ -102,14 +105,17 @@ export default function KakaoMap() {
             <div className="custom-overlay" data-zone_no={zone.zone_no}>
               <div className="custom-overlay-content">
                 <span className="reserve-able-title">반납 가능</span>
-                <img
+                <Image
                   className="reserve-arrow"
                   src="/images/reserve_arrow.png"
+                  alt=""
+                  width={38}
+                  height={13}
                 />
               </div>
             </div>
           </CustomOverlayMap>
-        </div>
+        </button>
       ))}
     </Map>
   );

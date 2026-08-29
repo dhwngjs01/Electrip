@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, ButtonGroup, Card, Form, Modal } from "react-bootstrap";
+import { Button, Card, Form, Modal } from "react-bootstrap";
 import DaumPostcode from "react-daum-postcode";
 import KakaoRoadView from "./KakaoRoadView";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,8 +17,6 @@ export default function AddZoneForm() {
   const zone = useSelector((state) => state.zoneReducer);
   const dispatch = useDispatch();
 
-  const [isPostcodeClicked, setIsPostcodeClicked] = useState(true);
-
   // 카카오 주소 검색 API
   const [openPostcode, setOpenPostcode] = useState(false);
 
@@ -26,13 +24,11 @@ export default function AddZoneForm() {
     // 버튼 클릭 이벤트
     clickButton: () => {
       setOpenPostcode((current) => !current);
-      setIsPostcodeClicked((current) => !current);
     },
 
     // 주소 선택 이벤트
     selectAddress: (data) => {
       setOpenPostcode(false);
-      setIsPostcodeClicked(false);
 
       dispatch(setZipCode(data.zonecode));
       dispatch(setAddress(data.address));

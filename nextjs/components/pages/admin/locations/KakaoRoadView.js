@@ -15,9 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 export default function KakaoRoadView() {
   const zone = useSelector((state) => state.zoneReducer);
   const dispatch = useDispatch();
-  const geocoder = new window.kakao.maps.services.Geocoder();
 
   useEffect(() => {
+    void zone.searchFlag;
+    const geocoder = new window.kakao.maps.services.Geocoder();
+
     // 주소로 좌표를 검색합니다
     geocoder.addressSearch(zone.address, (result, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
@@ -25,7 +27,7 @@ export default function KakaoRoadView() {
         dispatch(setLng(result[0].x));
       }
     });
-  }, [zone.searchFlag]);
+  }, [dispatch, zone.address, zone.searchFlag]);
 
   // 지도를 클릭한 위치에 표출할 마커입니다
   const handlerClickMap = (_, mouseEvent) => {
@@ -42,6 +44,8 @@ export default function KakaoRoadView() {
   };
 
   const searchAddressFromCoords = (lat, lng) => {
+    const geocoder = new window.kakao.maps.services.Geocoder();
+
     geocoder.coord2Address(lng, lat, (result, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
         if (result[0].road_address === null) {

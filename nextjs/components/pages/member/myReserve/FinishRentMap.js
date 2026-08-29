@@ -87,21 +87,6 @@ export default function FinishRentMap() {
     });
   };
 
-  const searchCallback = (data, status) => {
-    if (status === kakao.maps.services.Status.OK) {
-      if (data[0].road_address) {
-        // 도로명 주소 정보가 있을 경우
-        dispatch(setAddress(data[0].road_address.address_name));
-        dispatch(setSearchKeyword(data[0].road_address.address_name));
-      } else {
-        // 도로명 주소 정보가 없을 경우
-        dispatch(setAddress(data[0].address.address_name));
-        dispatch(setSearchKeyword(data[0].address.address_name));
-      }
-
-      dispatch(setCurrentPos({ lat: data[0].y, lng: data[0].x }));
-    }
-  };
 
   const handleChangeAddressInput = (e) => {
     dispatch(setSearchKeyword(e.target.value));

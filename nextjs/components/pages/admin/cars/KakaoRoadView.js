@@ -4,11 +4,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Map, MapMarker, Roadview } from "react-kakao-maps-sdk";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-export default function KakaoRoadView(props) {
+export default function KakaoRoadView() {
   const car = useSelector((state) => state.carReducer);
-  const dispatch = useDispatch();
 
   const [zone, setZone] = useState(null);
   const [center, setCenter] = useState(null);

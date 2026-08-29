@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
@@ -39,7 +40,7 @@ export default function MyReserveList() {
     };
 
     getReserveList();
-  }, [session]);
+  }, [dispatch, session.data]);
 
   const diffDate = (type, start, end) => {
     return dayjs(end).diff(dayjs(start).format("YYYY-MM-DD HH:mm"), type);
@@ -87,10 +88,14 @@ export default function MyReserveList() {
             <Card.Body className="p-4">
               <Row className="align-items-center">
                 <Col md={5}>
-                  <img
+                  <Image
                     src={`/images/cars/${reserve.car_image}`}
                     alt={reserve.car_name}
                     className="img-fluid px-5"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ height: "auto", width: "100%" }}
                   />
                 </Col>
                 <Col md={7}>

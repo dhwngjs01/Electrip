@@ -7,6 +7,9 @@ import CarEditButton from "./CarEditButton";
 import CarChangeStatusButton from "./CarChangeStatusButton";
 import { Table } from "react-bootstrap";
 import CarStatusBadge from "./CarStatusBadge";
+import Image from "next/image";
+
+const imageLoader = ({ src }) => src;
 
 export default function CarList() {
   const [cars, setCars] = useState(null);
@@ -35,17 +38,23 @@ export default function CarList() {
         </thead>
         <tbody>
           {cars &&
-            cars.map((car, key) => {
+            cars.map((car) => {
               return (
-                <tr key={key} className={car.car_is_active ? "" : "bg-warning"}>
+                <tr
+                  key={car.car_no}
+                  className={car.car_is_active ? "" : "bg-warning"}
+                >
                   <td className="fs-6">
-                    <CarStatusBadge car={car} cars={cars} />
+                    <CarStatusBadge car={car} />
                   </td>
                   <td>
-                    <img
+                    <Image
+                      loader={imageLoader}
                       src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/images/${car.car_image}`}
                       alt={car.car_name}
-                      height="50"
+                      width={80}
+                      height={50}
+                      style={{ height: 50, width: "auto" }}
                     />
                   </td>
                   <td>{car.car_name}</td>
