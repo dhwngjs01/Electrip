@@ -5,6 +5,29 @@ import {
   getClientAddress,
 } from "@/util/rateLimit";
 
+const isValidEmail = (value) => {
+  if (value.length > 254) {
+    return false;
+  }
+
+  for (const character of value) {
+    if (character.trim() === "") {
+      return false;
+    }
+  }
+
+  const atIndex = value.indexOf("@");
+  const domain = value.slice(atIndex + 1);
+  const dotIndex = domain.lastIndexOf(".");
+
+  return (
+    atIndex > 0 &&
+    atIndex === value.lastIndexOf("@") &&
+    dotIndex > 0 &&
+    dotIndex < domain.length - 1
+  );
+};
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json("허용되지 않는 접근입니다.");
@@ -27,7 +50,7 @@ export default async function handler(req, res) {
   const name = req.body.name.trim();
   const mobile = req.body.mobile.trim();
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!isValidEmail(email)) {
     return res.status(400).json({
       empty_value_required_list: ["email"],
       message: "이메일 주소를 확인해주세요.",
